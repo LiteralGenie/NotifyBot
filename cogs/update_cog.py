@@ -1,7 +1,7 @@
 from discord.ext import tasks, commands
-from classes.scrapers import SushiScraper
+from classes.scrapers import SushiScraper, LeviScraper
 from utils.cog_utils.update_utils import update_check
-import asyncio, time
+import asyncio
 
 
 class UpdateCog(commands.Cog):
@@ -21,3 +21,13 @@ class UpdateCog(commands.Cog):
 			update_channel= self.bot.get_channel(self.bot.config['update_channel'])
 			await update_channel.send(**x)
 			await asyncio.sleep(self.bot.config['discord_message_delay'])
+
+
+	@tasks.loop(minutes=1)
+	@update_check('levi')
+	async def check_sushi(self):
+		async for x in (LeviScraper.get_updates()):
+			update_channel= self.bot.get_channel(self.bot.config['update_channel'])
+			await update_channel.send(**x)
+			await asyncio.sleep(self.bot.config['discord_message_delay'])
+

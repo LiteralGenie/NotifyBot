@@ -1,0 +1,5 @@
+# series to ignore. Please be somewhat specific since adding "night" will blacklist both "Knight Run" and "Bump in the Night"
+
+[
+"genjitsu"
+]

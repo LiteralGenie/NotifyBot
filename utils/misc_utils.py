@@ -37,13 +37,17 @@ def load_yaml_with_default(path, default=None):
 
 	# load json, using default if necessary
 	if os.path.exists(path):
-		return yaml.load(open(path, encoding='utf-8'))
-	elif default is not False:
+		ret= yaml.load(open(path, encoding='utf-8'))
+		if ret is not None:
+			return ret
+
+	if default is not False:
 		dump_yaml(default, path)
 		return default
 	else:
 		raise Exception(f"No default supplied and file does not exist: {path}")
 
+# use safe to get a python dictionary rather than weird dictionary wrapper
 def load_yaml_from_string(x, safe=True):
 	if safe:
 		tmp= YAML(typ='safe')

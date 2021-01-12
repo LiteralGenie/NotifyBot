@@ -22,3 +22,4 @@ SERIES_CACHE= CACHE_DIR + "series.json"
 SEEN_CACHE= CACHE_DIR + "seen.json"
 
 MENTIONS_FILE= CONFIG_DIR + "mentions.yaml"
+BLACKLIST_FILE= CONFIG_DIR + "series_blacklist.yaml"

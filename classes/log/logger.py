@@ -3,11 +3,11 @@ import logging.config
 import utils, logging, asyncio
 
 
+# IMPORTANT! subclasses should init with: super().__init__(__name__)
 class Logger:
 	CONFIG= utils.load_yaml(utils.LOGGING_CONFIG)
 	logging.config.dictConfig(CONFIG)
 
-	# subclasses should init with: super().__init__(__name__)
 	def __init__(self, name):
 		self._logger= logging.getLogger(name)
 		self._logger._tags= []

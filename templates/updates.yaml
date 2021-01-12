@@ -1,4 +1,4 @@
-mangasushi: |-
+update_embed: |-
   <%
     is_int= CHAPTER_NUMBER - int(CHAPTER_NUMBER) == 0
     chap_num= int(CHAPTER_NUMBER) if is_int else CHAPTER_NUMBER

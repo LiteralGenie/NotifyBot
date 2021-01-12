@@ -1,11 +1,14 @@
 from discord.ext import commands
-from discord.errors import Forbidden
+from ..log.logger import Logger
 from .templated_error import TemplatedError
 
 import utils, traceback, sys
 
-# mixin for globally handling errors
-class ErrorHandler:
+# handle errors resulting from user commands --- does not handle errors from automatic things like tasks.loop
+class ErrorHandler(Logger):
+	def __init__(self):
+		super().__init__(__name__)
+
 	async def on_command_error(self, ctx, e):
 		if isinstance(e, TemplatedError):
 			return await ctx.send(e.render(ctx))
@@ -27,4 +30,5 @@ class ErrorHandler:
 		# print
 		await ctx.send(uncaught)
 		traceback.print_tb(err.__traceback__)
+		self.error(str(e))
 		sys.stderr.write(str(e))

@@ -1,5 +1,4 @@
-from discord import Embed
-from utils.scraper_utils import get_session, get_html
+from utils.scraper_utils import get_html
 from classes.scrapers import UpdateScraper
 from bs4 import BeautifulSoup
 import re, utils
@@ -24,16 +23,6 @@ class SushiScraper(UpdateScraper):
 			group= "Mangasushi",
 			group_link="https://mangasushi.net",
 		)
-
-	@classmethod
-	def format_update(cls, update):
-		STRINGS= utils.load_yaml_with_default(utils.UPDATE_STRINGS)
-
-		ret= utils.render(STRINGS['mangasushi'], update)
-		ret= utils.load_yaml_from_string(ret, safe=True)
-		ret= Embed.from_dict(ret)
-
-		return dict(content=cls.get_mentions(update), embed=ret)
 
 	@staticmethod
 	def parse_chap_url(url):
