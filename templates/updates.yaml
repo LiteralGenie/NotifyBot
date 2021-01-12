@@ -1,0 +1,34 @@
+mangasushi: |-
+  <%
+    is_int= CHAPTER_NUMBER - int(CHAPTER_NUMBER) == 0
+    chap_num= int(CHAPTER_NUMBER) if is_int else CHAPTER_NUMBER
+  %>
+
+  <%
+    TITLE_CHAR_LIM= 30
+    DESC_CHAR_LIM= 150
+
+    def truncate(x, limit, trail="..."):
+      x= str(x)
+      if len(x) > limit+len(trail):
+        return x[:limit] + trail
+      return x
+
+    title= truncate(SERIES_DATA['display_name'], TITLE_CHAR_LIM)
+    desc= truncate(SERIES_DATA['description'], DESC_CHAR_LIM)
+  %>
+
+
+  title: ${title} ${chap_num}
+  url: ${LINK}
+  description: |-
+    ${desc.replace("\n", "\n  ")}
+  image:
+    url: ${SERIES_DATA['cover_link']}
+  fields:
+    - name: group
+      value: "[${SERIES_DATA['group']}](${SERIES_DATA['group_link']})"
+      inline: True
+    - name: series page
+      value: "[link](${SERIES_DATA['link']})"
+      inline: True

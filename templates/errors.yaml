@@ -1,0 +1,18 @@
+# Miscellaneous ----
+uncaught_template: |-
+  Unexpected error. <@113843036965830657>
+  ```py
+  @ MESSAGE:
+  ${MESSAGE}
+
+  @ EXCEPTION:
+  ${EXCEPTION}
+  ```
+
+tmp_not_found_template: |-
+  Typo in template name `{{NAME}}`
+  Valid template names: `[${", ".join(AVAILABLE)$}]`
+  <@113843036965830657>
+
+bad_response_template: |-
+  Error. Accessing "${LINK}" failed with reason "{RESPONSE.reason}} (${RESPONSE.status})"

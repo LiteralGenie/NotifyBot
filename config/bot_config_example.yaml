@@ -1,0 +1,18 @@
+##### Stuff you wanna edit --- use "# blah" at the end of the line to add a comment
+discord_key: "blah"
+prefix: "!"
+update_channel: 563523595322785833 # channel_name
+
+sushi_check_frequency_minutes: 30
+
+
+
+##### Stuff you wanna leave alone
+sushi_update_link: "https://mangasushi.net/manga/?m_orderby=latest"
+sushi_series_base: "https://mangasushi.net/manga/"
+
+# how often (days) to check for new series cover / description / etc
+series_refresh_rate: 14
+
+# how long (seconds) to wait between update messages
+discord_message_delay: 5
