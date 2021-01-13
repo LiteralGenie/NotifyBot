@@ -134,6 +134,7 @@ class UpdateScraper(ABC):
 			description= ...,
 			group= ...,
 			group_link= ...,
+			site= ..., 		    # some identifier for the mentions file
 		)
 		"""
 		pass
@@ -151,6 +152,7 @@ class UpdateScraper(ABC):
 			series_link= ...,
 			chapter_name= ...,
 			chapter_number= ...,
+			volume_number= ...,   # -1 if none
 			link= ...
 		)
 		"""

@@ -19,13 +19,13 @@ update_embed: |-
     desc= desc if desc else "N/A"
 
     title= truncate(SERIES_DATA['display_name'], TITLE_CHAR_LIM)
-    title_number= f"{title} - "
+    title= f"{title} - "
     if VOLUME_NUMBER > -1:
-      title_number+= f"Volume {VOLUME_NUMBER}, "
-    title_number+= f"Chapter {chap_num}"
+      title+= f"Volume {VOLUME_NUMBER}, "
+    title+= f"Chapter {chap_num}"
   %>
 
-  title: ${title} - ${title_number}
+  title: ${title}
   url: ${LINK}
   description: |-
     ${desc}
