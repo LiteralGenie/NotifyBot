@@ -22,6 +22,7 @@ class SushiScraper(UpdateScraper):
 			description=description,
 			group= "Mangasushi",
 			group_link="https://mangasushi.net",
+			site= "mangasushi"
 		)
 
 	@staticmethod

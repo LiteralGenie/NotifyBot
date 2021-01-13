@@ -81,4 +81,5 @@ class MdScraper(UpdateScraper):
 			description=description,
 			group= update['extra']['group'],
 			group_link="https://mangadex.org/",
+			site= "mangadex"
 		)

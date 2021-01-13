@@ -47,6 +47,7 @@ class LeviScraper(UpdateScraper):
 			description=description,
 			group= "Leviatan Scans",
 			group_link="https://leviatanscans.com/",
+			site= "leviatan scans"
 		)
 
 	@staticmethod
