@@ -3,13 +3,19 @@ discord_key: "blah"
 prefix: "!"
 update_channel: 563523595322785833 # channel_name
 
-sushi_check_frequency_minutes: 30
+sushi_check_frequency_seconds: 120
+levi_check_frequency_seconds: 60
+md_check_frequency_seconds: 65
 
 
 
 ##### Stuff you wanna leave alone
 sushi_update_link: "https://mangasushi.net/manga/?m_orderby=latest"
 sushi_series_base: "https://mangasushi.net/manga/"
+
+leviathan_update_link: "https://leviatanscans.com/latest"
+
+mangadex_update_link: "https://mangadex.org/rss/follows/blah"
 
 # how often (days) to check for new series cover / description / etc
 series_refresh_rate: 14

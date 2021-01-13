@@ -11,9 +11,9 @@ def update_check(key):
 			# if self.check_sushi.current_loop != 0:
 			if self.iterations.get(key, 0) != 0:
 				last_check= time.time() - self.check_times[key]
-				last_check= last_check / 60
+				last_check= last_check
 
-				do_update= (last_check >= self.bot.config[key + '_check_frequency_minutes'])
+				do_update= (last_check >= self.bot.config[key + '_check_frequency_seconds'])
 
 			# send update messages
 			if do_update:

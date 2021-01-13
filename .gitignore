@@ -2,3 +2,4 @@
 /venv/
 /.idea/
 /config/bot_config.yaml
+/scratch.py

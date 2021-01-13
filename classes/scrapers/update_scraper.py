@@ -17,8 +17,11 @@ class UpdateScraper(ABC):
 		await session.close()
 
 	@classmethod
-	async def get_series_data(cls, name, link, session=None):
+	async def get_series_data(cls, update, session=None):
 		# inits
+		name= update['series']
+		link= update['series_link']
+
 		DATA= utils.load_json_with_default(utils.SERIES_CACHE, {})
 		CONFIG= utils.load_bot_config()
 
@@ -30,7 +33,7 @@ class UpdateScraper(ABC):
 			# get data
 			html= await get_html(link, session)
 			soup= BeautifulSoup(html, 'html.parser')
-			s_data= cls.parse_series_page(soup)
+			s_data= cls.parse_series_page(soup, update)
 			s_data['link']= link
 
 			# cache
@@ -50,7 +53,7 @@ class UpdateScraper(ABC):
 
 		for x in updates:
 			# inits
-			series_data= await cls.get_series_data(x['series'], x['series_link'], session)
+			series_data= await cls.get_series_data(x, session)
 			x['series_data']= series_data
 
 			# ignore already seen
@@ -118,7 +121,7 @@ class UpdateScraper(ABC):
 
 	@staticmethod
 	@abstractmethod
-	def parse_series_page(soup):
+	def parse_series_page(soup, update):
 		"""
 		soup is a bs4.BeautifulSoup instance constructed from html of the series page
 

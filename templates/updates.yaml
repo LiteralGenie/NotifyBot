@@ -14,15 +14,21 @@ update_embed: |-
         return x[:limit] + trail
       return x
 
-    title= truncate(SERIES_DATA['display_name'], TITLE_CHAR_LIM)
     desc= truncate(SERIES_DATA['description'], DESC_CHAR_LIM)
+    desc= desc.replace("\n", "\n  ")
+    desc= desc if desc else "N/A"
+
+    title= truncate(SERIES_DATA['display_name'], TITLE_CHAR_LIM)
+    title_number= f"{title} - "
+    if VOLUME_NUMBER > -1:
+      title_number+= f"Volume {VOLUME_NUMBER}, "
+    title_number+= f"Chapter {chap_num}"
   %>
 
-
-  title: ${title} ${chap_num}
+  title: ${title} - ${title_number}
   url: ${LINK}
   description: |-
-    ${desc.replace("\n", "\n  ")}
+    ${desc}
   image:
     url: ${SERIES_DATA['cover_link']}
   fields:

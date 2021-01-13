@@ -11,7 +11,7 @@ class SushiScraper(UpdateScraper):
 		return updates
 
 	@staticmethod
-	def parse_series_page(soup):
+	def parse_series_page(soup, update):
 		cover_link= soup.find(class_="summary_image").find('img')['data-src']
 		display_name= soup.find(class_="post-title").get_text().strip()
 		description= soup.find(class_="summary__content").get_text().strip()
@@ -52,6 +52,7 @@ class SushiScraper(UpdateScraper):
 			series_link= CONFIG['sushi_series_base'] + m[0],
 			chapter_name=chapter_name,
 			chapter_number=chapter_num,
+			volume_number=-1,
 			link=url
 		)
 
