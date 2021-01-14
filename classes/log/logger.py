@@ -1,10 +1,14 @@
 from copy import copy
 import logging.config
-import utils, logging, asyncio
+import utils, logging, os
 
 
 # IMPORTANT! subclasses should init with: super().__init__(__name__)
 class Logger:
+	if not os.path.exists("./logs/log.txt"):
+		utils.make_dirs("./logs/log.txt")
+		open("./logs/log.txt", "w+")
+
 	CONFIG= utils.load_yaml(utils.LOGGING_CONFIG)
 	logging.config.dictConfig(CONFIG)
 
