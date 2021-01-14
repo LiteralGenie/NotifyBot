@@ -1,4 +1,4 @@
-update_embed: |-
+series_update_embed: |-
   <%
     is_int= CHAPTER_NUMBER - int(CHAPTER_NUMBER) == 0
     chap_num= int(CHAPTER_NUMBER) if is_int else CHAPTER_NUMBER
@@ -37,4 +37,45 @@ update_embed: |-
       inline: True
     - name: series page
       value: "[link](${SERIES_DATA['link']})"
+      inline: True
+
+news_update_embed: |-
+  <%
+    import random
+
+    TITLE_CHAR_LIM= 999
+    DESC_CHAR_LIM= 150
+
+    def truncate(x, limit, trail="..."):
+      x= str(x)
+      if len(x) > limit+len(trail):
+        return x[:limit] + trail
+      return x
+
+    desc= truncate(DESCRIPTION, DESC_CHAR_LIM)
+    desc= desc.replace("\n", "\n  ")
+    desc= desc if desc else "N/A"
+
+    title= truncate(TITLE, TITLE_CHAR_LIM)
+
+    default_covers= [
+      "https://files.catbox.moe/ms7jou.png",
+      "https://files.catbox.moe/9boqdp.png",
+      "https://files.catbox.moe/djc4s1.jpg",
+      "https://files.catbox.moe/kurxo5.png",
+      "https://files.catbox.moe/uwdt59.jpg",
+      "https://cdn.animenewsnetwork.com/stylesheets/img/logo.name.no-dot.png",
+    ]
+    cover_link= COVER_LINK if COVER_LINK else random.choice(default_covers)
+  %>
+
+  title: "${title}"
+  url: "${LINK}"
+  description: |-
+    ${desc}
+  image:
+    url: "${cover_link}"
+  fields:
+    - name: group
+      value: "[Anime News Network](https://www.animenewsnetwork.com)"
       inline: True

@@ -1,7 +1,7 @@
 from utils.scraper_utils import get_html
 from classes.scrapers import UpdateScraper
 from bs4 import BeautifulSoup
-import re, utils
+import utils
 
 
 class MdScraper(UpdateScraper):

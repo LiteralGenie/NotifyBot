@@ -79,6 +79,7 @@ class UpdateScraper(ABC):
 			yield x
 
 			# clean up
+			SEEN= SEEN[-12345:]
 			utils.dump_json(SEEN, utils.SEEN_CACHE)
 
 	@classmethod
@@ -103,7 +104,6 @@ class UpdateScraper(ABC):
 
 
 	@classmethod
-	@abstractmethod
 	def format_update(cls, update):
 		"""
 		update is a list entry from parse_update_page()
@@ -114,7 +114,7 @@ class UpdateScraper(ABC):
 		"""
 		STRINGS= utils.load_yaml_with_default(utils.UPDATE_STRINGS)
 
-		ret= utils.render(STRINGS['update_embed'], update)
+		ret= utils.render(STRINGS['series_update_embed'], update)
 		ret= utils.load_yaml_from_string(ret, safe=True)
 		ret= Embed.from_dict(ret)
 

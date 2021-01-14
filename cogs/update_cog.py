@@ -1,8 +1,7 @@
 from discord.ext import tasks, commands
-from classes.scrapers import SushiScraper, LeviScraper, MdScraper
+from classes.scrapers import SushiScraper, LeviScraper, MdScraper, AnnScraper
 from utils.cog_utils.update_utils import update_check, handle_loop_error
 from classes.log.logger import Logger
-import asyncio, traceback, utils
 
 
 class UpdateCog(commands.Cog, Logger):
@@ -20,6 +19,7 @@ class UpdateCog(commands.Cog, Logger):
 		self.get_loop('sushi', SushiScraper).start()
 		self.get_loop('levi', LeviScraper).start()
 		self.get_loop('md', MdScraper).start()
+		self.get_loop('ann', AnnScraper).start()
 
 	def get_loop(self, name, ScraperClass):
 		@handle_loop_error(self)

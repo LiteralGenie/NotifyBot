@@ -1,5 +1,5 @@
 import time, traceback, utils
-from classes.log.logger import log_func
+from classes.errors import TemplatedError
 
 
 # config should have a key for (key + '_check_frequency_seconds')
@@ -31,9 +31,12 @@ def handle_loop_error(self):
 		async def wrapper():
 			try:
 				await func()
+			except TemplatedError as e:
+				await self.error_channel.send(e.render())
 			except Exception as e:
 				ERROR_STRINGS= utils.load_yaml(utils.ERROR_STRINGS)
-				text= "".join(traceback.format_tb(e.__traceback__))
+				text= "".join(traceback.format_tb(e.__traceback__))[:1500]
+				text= str(e) + "\n" + text
 
 				ret= utils.render(
 					ERROR_STRINGS['loop_template'],
@@ -41,6 +44,6 @@ def handle_loop_error(self):
 					)
 
 				self.error(text, tags=['update loop'])
-				await self.update_channel.send(ret)
+				await self.error_channel.send(ret)
 		return wrapper
 	return decorator

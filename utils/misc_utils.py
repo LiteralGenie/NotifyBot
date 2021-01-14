@@ -84,8 +84,14 @@ def dump_json(data, path):
 	json.dump(data, open(path,"w",encoding='utf-8'), ensure_ascii=False, indent=2)
 
 
-
+# @todo: rewrite this
 def render(template, dct, **kwargs):
 	dct= { x.upper():y for x,y in dct.items() }
 	dct.update({ x.upper():y for x,y in kwargs.items() })
-	return Template(template).render(**dct)
+
+	try:
+		return Template(template).render(**dct)
+	except:
+		from mako import exceptions
+		print(exceptions.text_error_template().render())
+		raise Exception

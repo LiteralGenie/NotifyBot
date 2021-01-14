@@ -7,7 +7,7 @@ class TemplatedError(commands.CommandError):
 		self.error_name= error_name
 		self.kwargs= kwargs
 
-	def render(self, ctx):
+	def render(self):
 		ERROR_STRINGS= utils.load_yaml(utils.ERROR_STRINGS)
 
 		name= self.error_name.replace("_template", "")
