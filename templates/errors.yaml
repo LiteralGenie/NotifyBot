@@ -16,3 +16,10 @@ tmp_not_found_template: |-
 
 bad_response_template: |-
   Error. Accessing "${LINK}" failed with reason "{RESPONSE.reason}} (${RESPONSE.status})"
+
+loop_template: |-
+  Unexpected error. <@113843036965830657>
+  ```py
+  @ EXCEPTION:
+  ${EXCEPTION}
+  ```

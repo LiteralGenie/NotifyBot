@@ -10,14 +10,14 @@ def get_session():
 
 
 @log_func("visit")
-async def get_html(self, link, session=None):
+async def get_html(logger, link, session=None):
 	from classes.errors import TemplatedError
 
 	if session is None:
 		session= get_session()
 
 	resp= await session.get(link)
-	self.info(f'Visiting {link}')
+	logger.info(f'Visiting {link}')
 
 	if not resp.status == 200:
 		raise TemplatedError("bad_response", link=link, response=resp)

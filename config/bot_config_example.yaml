@@ -2,6 +2,7 @@
 discord_key: "blah"
 prefix: "!"
 update_channel: 563523595322785833 # channel_name
+error_channel: 563523595322785833 # channel_name
 
 sushi_check_frequency_seconds: 120
 levi_check_frequency_seconds: 60

@@ -1,9 +1,11 @@
-import time
+import time, traceback, utils
+from classes.log.logger import log_func
 
-# config should have a key for (key + '_check_frequency_minutes')
-def update_check(key):
+
+# config should have a key for (key + '_check_frequency_seconds')
+def update_check(key, self):
 	def decorator(func):
-		async def wrapper(self):
+		async def wrapper():
 			# check for updates periodically
 			do_update= True
 
@@ -19,7 +21,26 @@ def update_check(key):
 			if do_update:
 				self.check_times[key]= time.time()
 				self.iterations[key]= 1 + self.iterations.get(key,0)
-				await func(self)
+				await func()
 
+		return wrapper
+	return decorator
+
+def handle_loop_error(self):
+	def decorator(func):
+		async def wrapper():
+			try:
+				await func()
+			except Exception as e:
+				ERROR_STRINGS= utils.load_yaml(utils.ERROR_STRINGS)
+				text= "".join(traceback.format_tb(e.__traceback__))
+
+				ret= utils.render(
+					ERROR_STRINGS['loop_template'],
+					dict(EXCEPTION=text)
+					)
+
+				self.error(text, tags=['update loop'])
+				await self.update_channel.send(ret)
 		return wrapper
 	return decorator

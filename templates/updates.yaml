@@ -25,12 +25,12 @@ update_embed: |-
     title+= f"Chapter {chap_num}"
   %>
 
-  title: ${title}
-  url: ${LINK}
+  title: "${title}"
+  url: "${LINK}"
   description: |-
     ${desc}
   image:
-    url: ${SERIES_DATA['cover_link']}
+    url: "${SERIES_DATA['cover_link']}"
   fields:
     - name: group
       value: "[${SERIES_DATA['group']}](${SERIES_DATA['group_link']})"

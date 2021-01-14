@@ -98,6 +98,8 @@ class Logger:
 			return wrapper
 		return decorator
 
+
+# functions decorated by this should add an additional parameter to represent logger as first param
 def log_func(tags=None):
 	def decorator(func):
 		# if asyncio.iscoroutine(func):
