@@ -39,6 +39,10 @@ series_update_embed: |-
       value: "[link](${SERIES_DATA['link']})"
       inline: True
 
+  content: |-
+    ${title}
+    ${LINK}
+
 news_update_embed: |-
   <%
     import random

@@ -114,11 +114,14 @@ class UpdateScraper(ABC):
 		"""
 		STRINGS= utils.load_yaml_with_default(utils.UPDATE_STRINGS)
 
-		ret= utils.render(STRINGS['series_update_embed'], update)
-		ret= utils.load_yaml_from_string(ret, safe=True)
-		ret= Embed.from_dict(ret)
+		embed= utils.render(STRINGS['series_update_embed'], update)
+		embed= utils.load_yaml_from_string(embed, safe=True)
 
-		return dict(content=cls.get_mentions(update), embed=ret)
+		content= cls.get_mentions(update)
+		content+= "\n" + embed['content']
+		del embed['content']
+
+		return dict(content=content, embed=Embed.from_dict(embed))
 
 	@staticmethod
 	@abstractmethod
