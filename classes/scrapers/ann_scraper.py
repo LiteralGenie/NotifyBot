@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from utils.scraper_utils import get_session, get_html
 from discord import Embed
-import utils
+import utils, asyncio
 
 
 # @todo: create superclass for AnnScraper and UpdateScraper
@@ -63,6 +63,7 @@ class AnnScraper:
 		for x in lst:
 			x['cover_link']= await cls.get_cover_link(x, session)
 			yield cls.format_update(x)
+			await asyncio.sleep(3)
 
 		await session.close()
 
