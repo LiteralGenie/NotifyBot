@@ -9,7 +9,7 @@ series_update_embed: |-
     DESC_CHAR_LIM= 150
 
     def truncate(x, limit, trail="..."):
-      x= str(x)
+      x= str(x).replace('"', r'\"')
       if len(x) > limit+len(trail):
         return x[:limit] + trail
       return x
@@ -47,7 +47,7 @@ news_update_embed: |-
     DESC_CHAR_LIM= 150
 
     def truncate(x, limit, trail="..."):
-      x= str(x)
+      x= str(x).replace('"', r'\"')
       if len(x) > limit+len(trail):
         return x[:limit] + trail
       return x
