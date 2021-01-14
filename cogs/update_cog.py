@@ -13,20 +13,24 @@ class UpdateCog(commands.Cog, Logger):
 		self.check_times= {}
 		self.iterations= {}
 
-		self.update_channel= self.bot.get_channel(self.bot.config['update_channel'])
+		self.news_channel= self.bot.get_channel(self.bot.config['news_channel'])
+		self.series_channel= self.bot.get_channel(self.bot.config['series_channel'])
 		self.error_channel= self.bot.get_channel(self.bot.config['error_channel'])
 
 		self.get_loop('sushi', SushiScraper).start()
 		self.get_loop('levi', LeviScraper).start()
 		self.get_loop('md', MdScraper).start()
-		self.get_loop('ann', AnnScraper).start()
+		self.get_loop('ann', AnnScraper, channel=self.news_channel).start()
 
-	def get_loop(self, name, ScraperClass):
+	def get_loop(self, name, ScraperClass, channel=None):
+		if channel is None:
+			channel= self.series_channel
+
 		@handle_loop_error(self)
 		@update_check(name, self)
 		async def loop():
 			async for x in (ScraperClass.get_updates()):
-				await self.update_channel.send(**x)
+				await channel.send(**x)
 
 		kwargs = {
             'seconds': 5, 'minutes': 0, 'hours': 0,
