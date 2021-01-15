@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import re, utils, time
 
 
-class GenkanScraper():
+class GenkanScraper(UpdateScraper):
 	def __init__(self, key):
 		CONFIG= utils.load_bot_config()
 		self.home_link= CONFIG[key + '_home_link']
