@@ -27,10 +27,10 @@ class UpdateCog(commands.Cog, Logger):
 		self.get_loop('sks', GenkanScraper('sks'), self.levi_channel).start()
 		self.get_loop('levi', GenkanScraper('levi'), self.levi_channel).start()
 
-		# self.get_loop('sushi', SushiScraper, self.sushi_channel).start()
-		# self.get_loop('md', MdScraper, self.md_channel).start()
-		# self.get_loop('ann', AnnScraper, self.ann_channel).start()
-		# self.get_loop('lht', LhtScraper, self.lht_channel).start()
+		self.get_loop('sushi', SushiScraper, self.sushi_channel).start()
+		self.get_loop('md', MdScraper, self.md_channel).start()
+		self.get_loop('ann', AnnScraper, self.ann_channel).start()
+		self.get_loop('lht', LhtScraper, self.lht_channel).start()
 
 
 	def get_loop(self, name, ScraperClass, out_channel):
