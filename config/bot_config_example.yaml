@@ -8,9 +8,12 @@ levi_channel: 86420 # channel_name
 md_channel: 696969 # channel_name
 ann_channel: 3692581470 # channel_name
 lht_channel: 6543210 # channel_name
+sks_channel: 6543210 # channel_name
+
 
 sushi_check_frequency_seconds: 120
 levi_check_frequency_seconds: 60
+sks_check_frequency_seconds: 60
 md_check_frequency_seconds: 65
 ann_check_frequency_seconds: 65
 lht_check_frequency_seconds: 65
@@ -21,15 +24,19 @@ lht_check_frequency_seconds: 65
 sushi_update_link: "https://mangasushi.net/manga/?m_orderby=latest"
 sushi_series_base: "https://mangasushi.net/manga/"
 
-leviathan_update_link: "https://leviatanscans.com/latest"
+levi_home_link: "https://leviatanscans.com/"
+levi_name: "Leviatan Scans"
+
+sks_home_link: "https://skscans.com/"
+sks_name: "SK Scans"
+
 mangadex_update_link: "https://mangadex.org/rss/follows/Y3u52WTHefX9zGtF8gyrZVKPEQwSD4qm?h=0" # xiukai
 ann_update_link: "https://www.animenewsnetwork.com/news/rss.xml?ann-edition=us"
 lht_update_link: "https://lhtranslation.net/index.html"
 
 
+# how long (seconds) to wait between update messages
+discord_message_delay: 1
 
 # how often (days) to check for new series cover / description / etc
 series_refresh_rate: 14
-
-# how long (seconds) to wait between update messages
-discord_message_delay: 5
