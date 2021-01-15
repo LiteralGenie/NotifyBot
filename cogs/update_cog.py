@@ -23,8 +23,9 @@ class UpdateCog(commands.Cog, Logger):
 		self.sushi_channel= tmp('sushi')
 		self.md_channel= tmp('md')
 		self.lht_channel= tmp('lht')
+		self.sks_channel= tmp('sks')
 
-		self.get_loop('sks', GenkanScraper('sks'), self.levi_channel).start()
+		self.get_loop('sks', GenkanScraper('sks'), self.sks_channel).start()
 		self.get_loop('levi', GenkanScraper('levi'), self.levi_channel).start()
 
 		self.get_loop('sushi', SushiScraper, self.sushi_channel).start()
