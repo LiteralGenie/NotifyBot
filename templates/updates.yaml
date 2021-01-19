@@ -29,8 +29,10 @@ series_update_embed: |-
   url: "${LINK}"
   description: |-
     ${desc}
+  % if SERIES_DATA['cover_link']:
   image:
     url: "${SERIES_DATA['cover_link']}"
+  % endif
   fields:
     - name: group
       value: "[${SERIES_DATA['group']}](${SERIES_DATA['group_link']})"

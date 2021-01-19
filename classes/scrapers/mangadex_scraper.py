@@ -1,5 +1,6 @@
 from utils.scraper_utils import get_html
 from classes.scrapers import UpdateScraper
+from classes.log.logger import log_func
 from bs4 import BeautifulSoup
 import utils
 
@@ -71,9 +72,15 @@ class MdScraper(UpdateScraper):
 
 	@staticmethod
 	def parse_series_page(soup, update):
-		cover_link= soup.find(title="See covers").find("img")['src']
-		display_name= soup.find(class_=["card", "mb-3"]).find(class_="mx-1").get_text().strip()
-		description= ""
+		try:
+			cover_link= soup.find(title="See covers").find("img")['src']
+			display_name= soup.find(class_=["card", "mb-3"]).find(class_="mx-1").get_text().strip()
+			description= ""
+		except AttributeError:
+			print('Unreachable MD series', update)
+			cover_link= ""
+			display_name= "[unknown]"
+			description= ""
 
 		return dict(
 			cover_link=cover_link,
