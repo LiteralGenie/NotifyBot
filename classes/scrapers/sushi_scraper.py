@@ -5,13 +5,11 @@ import re, utils
 
 
 class SushiScraper(UpdateScraper):
-	@classmethod
-	async def parse_update_page(cls, session=None):
-		updates= [cls.parse_chap_url(x) for x in await cls.get_update_urls(session)]
+	async def parse_update_page(self, session=None):
+		updates= [self.parse_chap_url(x) for x in await self.get_update_urls(session)]
 		return updates
 
-	@staticmethod
-	def parse_series_page(soup, update):
+	def parse_series_page(self, soup, update):
 		cover_link= soup.find(class_="summary_image").find('img')['data-src']
 		display_name= soup.find(class_="post-title").get_text().strip()
 		description= soup.find(class_="summary__content").get_text().strip()

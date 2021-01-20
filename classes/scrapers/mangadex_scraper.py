@@ -1,13 +1,15 @@
 from utils.scraper_utils import get_html
 from classes.scrapers import UpdateScraper
-from classes.log.logger import log_func
+from classes.log.logger import Logger
 from bs4 import BeautifulSoup
 import utils
 
 
-class MdScraper(UpdateScraper):
-	@classmethod
-	async def parse_update_page(cls, session=None):
+class MdScraper(UpdateScraper, Logger):
+	def __init__(self):
+		Logger.__init__(self, __name__)
+
+	async def parse_update_page(self, session=None):
 		# inits
 		ret= []
 		CONFIG= utils.load_bot_config()
@@ -25,8 +27,12 @@ class MdScraper(UpdateScraper):
 
 			# series
 			up['series']= [tmp.pop(0)]
-			while not (tmp[0] == "-" and ("Chapter" in tmp[1] or "Volume" in tmp[1])):
-				up['series'].append(tmp.pop(0))
+			try:
+				while not (tmp[0] == "-" and ("Chapter" in tmp[1] or "Volume" in tmp[1])):
+					up['series'].append(tmp.pop(0))
+			except IndexError:
+				self.error(f"MD: Could not parse [{it.find('title').get_text().split()}]")
+				continue
 
 			up['series']= "-".join(up['series'])
 			tmp.pop(0) # -
@@ -70,8 +76,8 @@ class MdScraper(UpdateScraper):
 		return ret
 
 
-	@staticmethod
-	def parse_series_page(soup, update):
+
+	def parse_series_page(self, soup, update):
 		try:
 			cover_link= soup.find(title="See covers").find("img")['src']
 			display_name= soup.find(class_=["card", "mb-3"]).find(class_="mx-1").get_text().strip()

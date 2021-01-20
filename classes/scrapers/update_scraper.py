@@ -6,18 +6,19 @@ import utils, time
 
 
 class UpdateScraper(ABC):
-	@classmethod
-	async def get_updates(cls):
+	def __init__(self):
+		pass
+
+	async def get_updates(self):
 		session= get_session()
 
-		updates= await cls.parse_update_page(session)
-		async for x in (cls.filter_updates(updates, session)):
-			yield cls.format_update(x)
+		updates= await self.parse_update_page(session)
+		async for x in (self.filter_updates(updates, session)):
+			yield self.format_update(x)
 
 		await session.close()
 
-	@classmethod
-	async def get_series_data(cls, update, session=None):
+	async def get_series_data(self, update, session=None):
 		# inits
 		name= update['series']
 		link= update['series_link']
@@ -33,7 +34,7 @@ class UpdateScraper(ABC):
 			# get data
 			html= await get_html(link, session)
 			soup= BeautifulSoup(html, 'html.parser')
-			s_data= cls.parse_series_page(soup, update)
+			s_data= self.parse_series_page(soup, update)
 			s_data['link']= link
 
 			# cache
@@ -44,8 +45,7 @@ class UpdateScraper(ABC):
 		return DATA[name]
 
 
-	@classmethod
-	async def filter_updates(cls, updates, session=None):
+	async def filter_updates(self, updates, session=None):
 		# inits
 		ret= []
 		SEEN= utils.load_json_with_default(utils.SEEN_CACHE, [])
@@ -53,7 +53,7 @@ class UpdateScraper(ABC):
 
 		for x in updates:
 			# inits
-			series_data= await cls.get_series_data(x, session)
+			series_data= await self.get_series_data(x, session)
 			x['series_data']= series_data
 
 			# ignore already seen
@@ -82,8 +82,8 @@ class UpdateScraper(ABC):
 			SEEN= SEEN[-12345:]
 			utils.dump_json(SEEN, utils.SEEN_CACHE)
 
-	@classmethod
-	def get_mentions(cls, update):
+
+	def get_mentions(self, update):
 		mentions= utils.load_yaml_with_default(utils.MENTIONS_FILE)
 		data= update['series_data']
 		ret= []
@@ -103,8 +103,8 @@ class UpdateScraper(ABC):
 		return " ".join(ret)
 
 
-	@classmethod
-	def format_update(cls, update):
+
+	def format_update(self, update):
 		"""
 		update is a list entry from parse_update_page()
 
@@ -117,15 +117,15 @@ class UpdateScraper(ABC):
 		embed= utils.render(STRINGS['series_update_embed'], update)
 		embed= utils.load_yaml_from_string(embed, safe=True)
 
-		content= cls.get_mentions(update)
+		content= self.get_mentions(update)
 		content+= "\n" + embed['content']
 		del embed['content']
 
 		return dict(content=content, embed=Embed.from_dict(embed))
 
-	@staticmethod
+
 	@abstractmethod
-	def parse_series_page(soup, update):
+	def parse_series_page(self, soup, update):
 		"""
 		soup is a bs4.BeautifulSoup instance constructed from html of the series page
 
@@ -142,9 +142,9 @@ class UpdateScraper(ABC):
 		"""
 		pass
 
-	@classmethod
+
 	@abstractmethod
-	async def parse_update_page(cls, session):
+	async def parse_update_page(self, session):
 		"""
 		session is a aiohttp.Session instance
 
