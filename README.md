@@ -19,6 +19,8 @@ Discord bot for pulling updates from various websites.
 
 2. Add the class to the `__init__` function in `cogs/update_cog.py`.
 
+3. Edit the `config/mentions.yaml` and `config/series_blacklist.yaml` file as necessary. The mako template for existing update feeds can be edited in `templates/updates.yaml`.
+
 A partial example...
 
 ```py
