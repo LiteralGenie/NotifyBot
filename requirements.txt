@@ -1,5 +1,0 @@
-discord.py
-bs4
-Mako
-ruamel.yaml
-lxml
