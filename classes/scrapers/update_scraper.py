@@ -51,6 +51,8 @@ class UpdateScraper(ABC):
 		SEEN= utils.load_json_with_default(utils.SEEN_CACHE, [])
 		BLACKLIST= utils.load_yaml_with_default(utils.BLACKLIST_FILE, default=[])
 
+		updates.sort(key=lambda x: (x['series'], x['chapter_number']))
+
 		for x in updates:
 			# inits
 			series_data= await self.get_series_data(x, session)
