@@ -1,0 +1,8 @@
+/cache/
+/venv/
+/.idea/
+/config/bot_config.yaml
+/scratch.py
+/logs/
+/config/series_blacklist.yaml
+/config/mentions.yaml

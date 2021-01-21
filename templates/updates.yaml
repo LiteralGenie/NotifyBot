@@ -1,0 +1,90 @@
+series_update_embed: |-
+  <%
+    is_int= CHAPTER_NUMBER - int(CHAPTER_NUMBER) == 0
+    chap_num= int(CHAPTER_NUMBER) if is_int else CHAPTER_NUMBER
+  %>
+
+  <%
+    TITLE_CHAR_LIM= 999
+    DESC_CHAR_LIM= 150
+
+    def truncate(x, limit, trail="..."):
+      x= str(x).replace('"', r'\"')
+      if len(x) > limit+len(trail):
+        return x[:limit] + trail
+      return x
+
+    desc= truncate(SERIES_DATA['description'], DESC_CHAR_LIM)
+    desc= desc.replace("\n", "\n  ")
+    desc= desc if desc else "N/A"
+
+    title= truncate(SERIES_DATA['display_name'], TITLE_CHAR_LIM)
+    title= f"{title} - "
+    if VOLUME_NUMBER > -1:
+      title+= f"Volume {VOLUME_NUMBER}, "
+    title+= f"Chapter {chap_num}"
+  %>
+
+  title: "${title}"
+  url: "${LINK}"
+  description: |-
+    ${desc}
+  % if SERIES_DATA['cover_link']:
+  image:
+    url: "${SERIES_DATA['cover_link']}"
+  % endif
+  fields:
+    - name: group
+      value: "[${SERIES_DATA['group']}](${SERIES_DATA['group_link']})"
+      inline: True
+    - name: series page
+      value: "[link](${SERIES_DATA['link']})"
+      inline: True
+
+  content: |-
+    ${title}
+    ${LINK}
+
+news_update_embed: |-
+  <%
+    import random
+
+    TITLE_CHAR_LIM= 999
+    DESC_CHAR_LIM= 150
+
+    def truncate(x, limit, trail="..."):
+      x= str(x).replace('"', r'\"')
+      if len(x) > limit+len(trail):
+        return x[:limit] + trail
+      return x
+
+    desc= truncate(DESCRIPTION, DESC_CHAR_LIM)
+    desc= desc.replace("\n", "\n  ")
+    desc= desc if desc else "N/A"
+
+    title= truncate(TITLE, TITLE_CHAR_LIM)
+
+    default_covers= [
+      "https://files.catbox.moe/ms7jou.png",
+      "https://files.catbox.moe/ms7jou.png",
+      "https://files.catbox.moe/ms7jou.png",
+
+      "https://files.catbox.moe/9boqdp.png",
+      "https://files.catbox.moe/djc4s1.jpg",
+      "https://files.catbox.moe/kurxo5.png",
+      "https://files.catbox.moe/uwdt59.jpg",
+      "https://cdn.animenewsnetwork.com/stylesheets/img/logo.name.no-dot.png",
+    ]
+    cover_link= COVER_LINK if COVER_LINK else random.choice(default_covers)
+  %>
+
+  title: "${title}"
+  url: "${LINK}"
+  description: |-
+    ${desc}
+  image:
+    url: "${cover_link}"
+  fields:
+    - name: group
+      value: "[Anime News Network](https://www.animenewsnetwork.com)"
+      inline: True

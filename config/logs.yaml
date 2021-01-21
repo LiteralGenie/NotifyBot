@@ -1,0 +1,45 @@
+use_template: |-
+  ${USER} uses [${ACTION}]${f" on {TARGET}" if TARGET else ""}.
+
+
+vital_change_template: |-
+  <%
+    change= VITAL.current-VALUE
+    change_type= "gains" if change<0 else "loses"
+  %>\
+  ${VITAL.entity} ${change_type} ${abs(change)} ${VITAL.name}. Remaining: ${VITAL.current-change}/${VITAL.max}
+
+
+spawn_template: |-
+  <%
+  mob_strings= [f"Monster {x.index()} - {x['hp'][0]} HP" for x in SELF.mob_list]
+  %>\
+  Spawning:
+  ${"\t"}${"\n\t".join(mob_strings)}
+
+death_template: |-
+  ${SELF} has died.
+
+
+target_crit_template: |-
+  ${DEALER}'s attack crits ${TARGET} for ${int(DEALER['crit_mult']*100)}% damage.
+
+target_miss_template: |-
+  ${DEALER}'s attack misses ${TARGET}.
+
+target_evade_template: |-
+  ${TARGET} evades ${DEALER}'s attack.
+
+target_resist_template: |-
+  ${TARGET} resists ${int(MULT*100)}% of ${DEALER}'s attack.
+
+
+turn_divider_template: |-
+  ${"\n--- Next Turn ---\n"}
+
+
+buff_expire_template: |-
+  ${BUFF.name} has expired.
+
+buff_apply_template: |-
+  ${BUFF.entity} casts [${BUFF.name}].

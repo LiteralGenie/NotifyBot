@@ -1,0 +1,43 @@
+version: 1
+
+
+formatters:
+  console:
+    format: "%(message)s"
+  file:
+    format: "[%(asctime)s] %(message)s"
+
+filters:
+  file:
+    (): classes.log.filters.TagFilter
+    blacklist: [
+    ]
+  console:
+    (): classes.log.filters.TagFilter
+    blacklist: [
+    ]
+  tag_debug:
+    (): classes.log.filters.TagDebugger
+    width: 100
+
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: console
+    level: INFO
+    filters: [console, tag_debug]
+    stream: ext://sys.stdout
+
+  file:
+    class: logging.FileHandler
+    formatter: file
+    level: DEBUG
+    filters: [file]
+    filename: "./logs/log.txt"
+
+
+loggers:
+  classes:
+    level: INFO
+    handlers: [file, console]
