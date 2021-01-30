@@ -83,7 +83,7 @@ class MdScraper(UpdateScraper, Logger):
 			group.append(tmp.pop(0))
 		up.setdefault('extra', {})['group']= " ".join(group)
 
-		yield up
+		return up
 
 
 
