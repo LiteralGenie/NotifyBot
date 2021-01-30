@@ -35,7 +35,7 @@ class MdScraper(UpdateScraper, Logger):
 		return ret
 
 	@staticmethod
-	async def _parse(elem):
+	def _parse(elem):
 		up= dict()
 
 		# Asuperu Kanojo - Volume 5, Chapter 38
