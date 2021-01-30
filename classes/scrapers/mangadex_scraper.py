@@ -9,7 +9,7 @@ class MdScraper(UpdateScraper, Logger):
 	def __init__(self):
 		Logger.__init__(self, __name__)
 
-	async def parse_update_page(self, session=None):
+	async def parse_update_page(self, session):
 		# inits
 		ret= []
 		CONFIG= utils.load_bot_config()
@@ -17,63 +17,71 @@ class MdScraper(UpdateScraper, Logger):
 		# get all chapters on update page
 		main_page= await get_html(CONFIG['mangadex_update_link'], session)
 		soup= BeautifulSoup(main_page, 'lxml')
-
 		items= soup.find_all("item")
-		for it in items:
-			up= dict()
 
-			# Asuperu Kanojo - Volume 5, Chapter 38
-			tmp= it.find('title').get_text().split()
-
-			# series
-			up['series']= [tmp.pop(0)]
+		for x in items:
 			try:
-				while not (tmp[0] == "-" and ("Chapter" in tmp[1] or "Volume" in tmp[1])):
-					up['series'].append(tmp.pop(0))
+				up= self._parse(x)
+				ret.append(up)
 			except IndexError:
-				self.error(f"MD: Could not parse [{it.find('title').get_text().split()}]")
+				self.error(f"MD: Invalid naming scheme:\n{x}")
+			except ValueError:
+				self.error(f"Invalid chapter number:\n{x}")
+			except Exception as e:
+				self.error(f"{x}\n---\n{e}")
+			finally:
 				continue
 
-			up['series']= "-".join(up['series'])
-			tmp.pop(0) # -
+	@staticmethod
+	async def _parse(elem):
+		up= dict()
 
-			# volume / chapter
-			up['volume_number']= -1
+		# Asuperu Kanojo - Volume 5, Chapter 38
+		tmp= elem.find('title').get_text().split()
 
+		# series
+		up['series']= [tmp.pop(0)]
+		while not (tmp[0] == "-" and ("Chapter" in tmp[1] or "Volume" in tmp[1])):
+			up['series'].append(tmp.pop(0))
+
+		up['series']= "-".join(up['series'])
+		tmp.pop(0) # -
+
+		# volume / chapter
+		up['volume_number']= -1
+
+		typ= tmp.pop(0)
+		num= tmp.pop(0)
+		if typ == "Volume":
+			up['volume_number']= int(num.replace(",",""))
 			typ= tmp.pop(0)
 			num= tmp.pop(0)
-			if typ == "Volume":
-				up['volume_number']= int(num.replace(",",""))
-				typ= tmp.pop(0)
-				num= tmp.pop(0)
 
-			assert typ == 'Chapter'
-			up['chapter_number']= float(num)
+		assert typ == 'Chapter'
+		up['chapter_number']= float(num)
 
-			# chap name
-			up['chapter_name']= ''
+		# chap name
+		up['chapter_name']= ''
 
-			# chap link
-			up['link']= it.find('guid').get_text()
+		# chap link
+		up['link']= elem.find('guid').get_text()
 
-			# series_link
-			up['series_link']= it.find('mangalink').get_text()
+		# series_link
+		up['series_link']= elem.find('mangalink').get_text()
 
-			# group
-			tmp= it.find("description").get_text().split() # Group: Spruce Tree Scanlations - Uploader: Seele - Language: English
+		# group
+		tmp= elem.find("description").get_text().split() # Group: Spruce Tree Scanlations - Uploader: Seele - Language: English
 
-			while tmp[0] != "Group:":
-				tmp.pop(0)
+		while tmp[0] != "Group:":
 			tmp.pop(0)
+		tmp.pop(0)
 
-			group= [tmp.pop(0)]
-			while tmp[0] != "-" and tmp[1] != "Uploader:":
-				group.append(tmp.pop(0))
-			up.setdefault('extra', {})['group']= " ".join(group)
+		group= [tmp.pop(0)]
+		while tmp[0] != "-" and tmp[1] != "Uploader:":
+			group.append(tmp.pop(0))
+		up.setdefault('extra', {})['group']= " ".join(group)
 
-			ret.append(up)
-
-		return ret
+		yield up
 
 
 
