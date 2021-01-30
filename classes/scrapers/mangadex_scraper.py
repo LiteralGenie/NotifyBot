@@ -32,6 +32,8 @@ class MdScraper(UpdateScraper, Logger):
 			finally:
 				continue
 
+		return ret
+
 	@staticmethod
 	async def _parse(elem):
 		up= dict()
