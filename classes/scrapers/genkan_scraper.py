@@ -37,7 +37,8 @@ class GenkanScraper(UpdateScraper):
 	def parse_series_page(self, soup, update):
 		cover_link= soup.find(class_="media-content")['style']
 		cover_link= re.search(r":url\((.*)\)", cover_link).groups()[0]
-		cover_link= self.home_link + cover_link
+		if "http" not in cover_link:
+			cover_link= self.home_link + cover_link
 
 		display_name= soup.find(class_="text-highlight").get_text().strip()
 
