@@ -6,8 +6,8 @@ import utils, time
 
 
 class UpdateScraper(ABC):
-	def __init__(self):
-		pass
+	# def __init__(self):
+	# 	pass
 
 	async def get_updates(self):
 		session= get_session()

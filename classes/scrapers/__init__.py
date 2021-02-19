@@ -4,3 +4,4 @@ from .genkan_scraper import GenkanScraper
 from .mangadex_scraper import MdScraper
 from .ann_scraper import AnnScraper
 from .lht_scraper import LhtScraper
+from .flame_scraper import FlameScraper

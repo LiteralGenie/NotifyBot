@@ -19,6 +19,12 @@ ann_check_frequency_seconds: 65
 lht_check_frequency_seconds: 65
 
 
+flame_channel: 1
+flame_check_frequency_seconds: 65
+flame_update_link: http://flamescans.org/
+flame_series_base: https://flamescans.org/manga/
+
+
 
 ##### Stuff you wanna leave alone
 sushi_update_link: "https://mangasushi.net/manga/?m_orderby=latest"

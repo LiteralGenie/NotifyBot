@@ -14,7 +14,7 @@ class MdScraper(UpdateScraper, Logger):
 		ret= []
 		CONFIG= utils.load_bot_config()
 
-		# get all chapters on update page
+		# get all chapters on update pageget
 		main_page= await get_html(CONFIG['mangadex_update_link'], session)
 		soup= BeautifulSoup(main_page, 'lxml')
 		items= soup.find_all("item")
