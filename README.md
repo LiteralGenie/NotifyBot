@@ -1,6 +1,11 @@
 # NotifyBot
 
-Discord bot for pulling updates from various websites.
+Discord bot for pulling updates from various websites. 
+
+Notably...
+- Mangadex
+- AnimeNewsNetwork
+- Genkan-powered sites.
 
 ## Setup
 
