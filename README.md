@@ -3,7 +3,7 @@
 Discord bot for pulling updates from various websites. 
 
 Notably...
-- Mangadex
+- Mangadex (filtered by user follows)
 - AnimeNewsNetwork
 - Genkan-powered sites.
 
