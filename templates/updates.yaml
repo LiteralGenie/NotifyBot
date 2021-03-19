@@ -19,6 +19,7 @@ series_update_embed: |-
     desc= desc if desc else "N/A"
 
     title= truncate(SERIES_DATA['display_name'], TITLE_CHAR_LIM)
+    title= title.replace("\n"," ")
     title= f"{title} - "
     if VOLUME_NUMBER > -1:
       title+= f"Volume {VOLUME_NUMBER}, "
