@@ -32,8 +32,7 @@ class MadaraScraper(UpdateScraper):
 				up_copy['chapter_name']= ''
 				up_copy['chapter_number']= float(chap.find("a").get_text().strip())
 				up_copy['link']= c.find("a")['href']
-
-			ret.append(up_copy)
+				ret.append(up_copy)
 
 		return ret
 
