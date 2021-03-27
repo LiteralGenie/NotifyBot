@@ -1,4 +1,4 @@
-from discord.ext import commands
+from discord.ext import commands, tasks
 from classes.errors import ErrorHandler
 import discord, utils
 
@@ -20,3 +20,8 @@ class AmyBotU(commands.Bot, ErrorHandler):
 		# add cogs
 		from cogs import UpdateCog
 		self.add_cog(UpdateCog(self))
+
+	@tasks.loop(seconds=300)
+	async def printer(self):
+		print(self.index)
+		self.index += 1

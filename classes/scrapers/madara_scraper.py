@@ -29,11 +29,11 @@ class MadaraScraper(UpdateScraper):
 
 			for chap in c.find_all(class_="chapter-item"):
 				up_copy= up.copy()
-				up['chapter_name']= ''
-				up['chapter_number']= float(chap.find("a").get_text().strip())
-				up['link']= c.find("a")['href']
+				up_copy['chapter_name']= ''
+				up_copy['chapter_number']= float(chap.find("a").get_text().strip())
+				up_copy['link']= c.find("a")['href']
 
-			ret.append(up)
+			ret.append(up_copy)
 
 		return ret
 

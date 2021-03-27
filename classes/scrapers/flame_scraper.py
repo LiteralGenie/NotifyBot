@@ -31,7 +31,11 @@ class FlameScraper(UpdateScraper):
 			for x in c.find('ul').find_all('a'):
 				chap= up.copy()
 				chap['link']= x['href']
-				chap['chapter_number']= float(re.search(r'Chapter (\d+(?:\.\d+)?)', x.get_text()).groups()[0])
+
+				num= re.search(r'Chapter (\d+(?:\.\d+)?)', x.get_text())
+				num= float(num.groups()[0]) if num else -1
+				chap['chapter_number']= num
+
 				ret.append(chap)
 
 		return ret
