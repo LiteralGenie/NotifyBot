@@ -1,3 +1,4 @@
+# https://leovoel.github.io/embed-visualizer/
 series_update_embed: |-
   <%
     is_int= CHAPTER_NUMBER - int(CHAPTER_NUMBER) == 0
@@ -31,7 +32,7 @@ series_update_embed: |-
   description: |-
     ${desc}
   % if SERIES_DATA['cover_link']:
-  image:
+  thumbnail:
     url: "${SERIES_DATA['cover_link']}"
   % endif
   fields:
@@ -42,9 +43,8 @@ series_update_embed: |-
       value: "[link](${SERIES_DATA['link']})"
       inline: True
 
-  content: |-
-    ${title}
-    ${LINK}
+  footer:
+    text: Support us on Patreon! patreon.shills
 
 news_update_embed: |-
   <%

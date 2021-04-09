@@ -120,8 +120,9 @@ class UpdateScraper(ABC):
 		embed= utils.load_yaml_from_string(embed, safe=True)
 
 		content= self.get_mentions(update)
-		content+= "\n" + embed['content']
-		del embed['content']
+		if "content" in embed:
+			content+= "\n" + embed.get('content')
+			del embed['content']
 
 		return dict(content=content, embed=Embed.from_dict(embed))
 
