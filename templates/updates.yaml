@@ -44,7 +44,7 @@ series_update_embed: |-
       inline: True
 
   footer:
-    text: Support us on Patreon! patreon.shills
+    text: Support us on Patreon! https://www.patreon.com/lynxscans
 
 news_update_embed: |-
   <%
