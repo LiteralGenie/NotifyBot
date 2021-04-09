@@ -27,12 +27,12 @@ series_update_embed: |-
     title+= f"Chapter {chap_num}"
   %>
 
-  title: "<a:dp_sparkles3:829993321555951616> ${title} <a:dp_sparkles3:829993321555951616>"
+  title: "${title}"
   url: "${LINK}"
   description: |-
     ${desc}
   % if SERIES_DATA['cover_link']:
-  thumbnail:
+  image:
     url: "${SERIES_DATA['cover_link']}"
   % endif
   fields:
@@ -43,8 +43,9 @@ series_update_embed: |-
       value: "[link](${SERIES_DATA['link']})"
       inline: True
 
-  footer:
-    text: Support us on Patreon! https://www.patreon.com/lynxscans
+  content: |-
+    ${title}
+    ${LINK}
 
 news_update_embed: |-
   <%
