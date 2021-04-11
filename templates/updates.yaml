@@ -1,3 +1,4 @@
+# https://leovoel.github.io/embed-visualizer/
 series_update_embed: |-
   <%
     is_int= CHAPTER_NUMBER - int(CHAPTER_NUMBER) == 0
@@ -26,12 +27,12 @@ series_update_embed: |-
     title+= f"Chapter {chap_num}"
   %>
 
-  title: "${title}"
+  title: "<:dp_sparkles3:829994289073094676> ${title} <:dp_sparkles3:829994289073094676>"
   url: "${LINK}"
   description: |-
     ${desc}
   % if SERIES_DATA['cover_link']:
-  image:
+  thumbnail:
     url: "${SERIES_DATA['cover_link']}"
   % endif
   fields:
@@ -42,9 +43,8 @@ series_update_embed: |-
       value: "[link](${SERIES_DATA['link']})"
       inline: True
 
-  content: |-
-    ${title}
-    ${LINK}
+  footer:
+    text: Support us on Patreon! https://www.patreon.com/lynxscans
 
 news_update_embed: |-
   <%
