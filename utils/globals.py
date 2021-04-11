@@ -7,7 +7,7 @@ CONFIG_DIR= ROOT_DIR + "config/"
 DATA_DIR= ROOT_DIR + "data/"
 CACHE_DIR= ROOT_DIR + "cache/"
 TEMPLATE_DIR= ROOT_DIR + "templates/"
-
+WEBVIEW_DIR= ROOT_DIR + "webview/"
 
 ###
 
