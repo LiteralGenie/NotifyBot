@@ -1,4 +1,4 @@
-<%page args="**kwargs" />
+<%page args="GENERAL={}, ROLES={}" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,6 +6,15 @@
     </head>
 
     <body>
-        <%include file="roles.html" args="ROLES=ROLES" />
+        <p>Hover headers for details.</p><br><br>
+        % if GENERAL:
+            <%include file="/roles.html" args="SETTINGS=ROLES" />
+        % endif
+
+        % if ROLES:
+            <%include file="/general.html" args="SETTINGS=GENERAL" />
+        % endif
+
+
     </body>
 </html>

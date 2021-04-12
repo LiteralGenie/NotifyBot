@@ -1,0 +1,45 @@
+<%page args="SETTINGS" />
+
+
+<% # formatting funcs
+    from webview import utils
+%>
+
+<% # other
+    selected_settings= {
+        "secret_channel": {
+            "name": "Release Channel"
+        },
+        "error_channel": {
+            "name": "Error Channel"
+        },
+        "prefix": {
+            "name": "Prefix"
+        },
+    }
+%>
+
+<form id="general-form">
+    <table>
+        <thead>
+            <tr><th colspan="2">General Settings</th></tr>
+            <tr>
+                <th class="name">Property</th>
+                <th class="role">Value</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            % for x,y in selected_settings.items():
+                <tr>
+                    <td>
+                        <label>${y['name']}</label>
+                    </td>
+                    <td>
+                        <input name="${x}" placeholder="${SETTINGS[x]}"/>
+                    </td>
+                </tr>
+            % endfor
+        </tbody>
+    </table>
+</form>

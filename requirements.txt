@@ -3,3 +3,5 @@ bs4
 Mako
 ruamel.yaml
 lxml
+quart
+discord-ext-ipc

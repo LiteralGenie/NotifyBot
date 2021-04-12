@@ -1,11 +1,8 @@
-<% page args="ROLES" />
+<%page args="SETTINGS" />
 
 
 <% # formatting funcs
-    def list_to_string(lst):
-        if isinstance(lst, str):
-            return lst
-        return ", ".join(lst)
+    from webview import utils
 %>
 
 <% # strings
@@ -15,22 +12,28 @@
     )
 %>
 
-<table id="role-settings">
-    <thead>
-        <th title="${tooltips['name']}" class="name">Series Name</th>
-        <th title="${tootltips['role']}" class="role">Role(s)</th>
-    </thead>
+<form id="role-form">
+    <table>
+        <thead>
+            <tr><th colspan="2">Role Settings</th></tr>
 
-    <tbody>
-        % for role,pinged in ROLES.items()
             <tr>
-                <td>
-                    <input type="test" placeholder="${role}"/>
-                </td>
-                <td>
-                    <input type="test" placeholder="${list_to_string(pinged)}"/>
-                </td>
+                <th title="${tooltips['name']}" class="name">Series Name</th>
+                <th title="${tooltips['role']}" class="role">Role(s)</th>
             </tr>
-        % end for
-    </tbody>
-</table>
+        </thead>
+
+        <tbody>
+            % for role,pinged in SETTINGS.items():
+                <tr>
+                    <td>
+                        <input placeholder=${role}"/>
+                    </td>
+                    <td>
+                        <input placeholder="${utils.list_to_string(pinged)}"/>
+                    </td>
+                </tr>
+            % endfor
+        </tbody>
+    </table>
+</form>
