@@ -23,6 +23,7 @@ class AnnScraper:
 		ret= []
 
 		for x,y in mentions.items():
+			x= [y.strip() for y in x.split(",")]
 			if 	utils.contains_all(to_search=name, to_find=x) or \
 				x.lower() == "all":
 

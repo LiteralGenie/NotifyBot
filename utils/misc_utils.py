@@ -9,7 +9,7 @@ yaml.preserve_quotes= True
 def contains_all(to_search, to_find, case_insensitive=True):
 	def cln(x):
 		if case_insensitive:
-			x= x.lower()
+			x= x.lower().strip()
 		return x
 
 	if isinstance(to_search, str):
