@@ -91,11 +91,11 @@ class UpdateScraper(ABC):
 		ret= []
 
 		for x,y in mentions.items():
-			x= [y.strip() for y in x.split(",")]
+			x= [y.strip().lower() for y in x.split(",")]
 			if 	utils.contains_all(to_search=data['display_name'], to_find=x) or \
 				utils.contains_all(to_search=data['group'], to_find=x) or \
 				utils.contains_all(to_search=data['site'], to_find=x) or \
-				x.lower() == "all":
+				"all" in x:
 
 				if not isinstance(y, list):
 					y= [y]

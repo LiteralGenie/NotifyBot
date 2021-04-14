@@ -1,0 +1,3 @@
+#series-list > tbody > tr:nth-child(even), #role-list > tbody > tr:nth-child(even) {
+    background: #EEE;
+}

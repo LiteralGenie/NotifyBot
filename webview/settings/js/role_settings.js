@@ -19,8 +19,6 @@ function get_values(row) {
     let clean_series = raw_series.split(",").map(x => x.trim())
     let clean_role = raw_role.split(",").map(x => x.trim())
 
-    console.log(raw_series, clean_series)
-
     return {
         series: clean_series,
         role: clean_role,
