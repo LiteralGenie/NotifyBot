@@ -1,5 +1,5 @@
 from quart import Quart, Response
-import root, settings
+from . import root, settings
 
 
 app= Quart(__name__)
