@@ -1,4 +1,4 @@
-from discord.ext import commands, tasks, ipc
+from discord.ext import commands, ipc
 from classes.errors import ErrorHandler
 import discord, utils
 
@@ -21,7 +21,7 @@ class AmyBotU(commands.Bot, ErrorHandler):
 		print(f"Logged in as {self.user.display_name}#{self.user.discriminator}")
 
 		# add cogs
-		from cogs import UpdateCog, WebviewCog
+		from classes.cogs import UpdateCog, WebviewCog
 		self.add_cog(UpdateCog(self))
 		self.add_cog(WebviewCog(self))
 
