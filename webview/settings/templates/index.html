@@ -24,6 +24,24 @@
         <div>
             <table>
                 <thead>
+                    <tr>
+                        <th>Series List</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    % for s in SERIES_DATA.values():
+                        <tr>
+                            <td><label>${s['display_name']}</label></td>
+                        </tr>
+                    % endfor
+                </tbody>
+            </table>
+        </div>
+
+        <br><hr><br>
+        <div>
+            <table>
+                <thead>
                     <tr><th colspan="2">Roles</th></tr>
                     <tr>
                         <th>name</th>
@@ -42,23 +60,7 @@
             </table>
         </div>
 
-        <br><hr><br>
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Series List</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    % for s in SERIES_DATA.values():
-                        <tr>
-                            <td><label>${s['display_name']}</label></td>
-                        </tr>
-                    % endfor
-                </tbody>
-            </table>
-        </div>
+
     </body>
 </html>
 

@@ -12,12 +12,14 @@ function get_values(row) {
     let role_input= row.getElementsByClassName("role-input")[0]
 
     // get input values
-    let raw_series = series_input.value || series_input.placeholder
-    let raw_role = role_input.value || role_input.placeholder
+    let raw_series= series_input.value || series_input.placeholder
+    let raw_role= role_input.value || role_input.placeholder
 
     // clean values
     let clean_series = raw_series.split(",").map(x => x.trim())
     let clean_role = raw_role.split(",").map(x => x.trim())
+
+    console.log(raw_series, clean_series)
 
     return {
         series: clean_series,
