@@ -5,6 +5,7 @@ from . import LOOKUP, TEMPLATE_DIR
 from ruamel.yaml import YAML
 import utils
 
+
 # GET for settings summary
 class SettingsView(views.MethodView):
 	async def get(self):

@@ -14,23 +14,31 @@ class GenkanScraper(UpdateScraper):
 	async def parse_update_page(self, session=None):
 		# inits
 		ret= []
+		page_index= 0
 
-		# get all chapters on update page
-		main_page= await get_html(self.update_link, session)
-		soup= BeautifulSoup(main_page, 'html.parser')
+		while True:
+			page_index+= 1
+			time.sleep(2)
 
-		cards= soup.find_all(class_=["list-item", "rounded"])
-		for c in cards:
-			up= dict()
+			# get all chapters on update page
+			main_page= await get_html(self.update_link + f"?page={page_index}", session)
+			soup= BeautifulSoup(main_page, 'html.parser')
 
-			up['series']= c.find(class_='list-title').get_text().strip().replace(' ', '-')
-			up['series_link']= c.find(class_='list-title')['href']
-			up['chapter_name']= ''
-			up['chapter_number']= float(c.find("span", class_="badge-md").get_text().split()[-1])
-			up['volume_number']= -1
-			up['link']= c.find(class_="media-content")['href']
+			cards= soup.find_all(class_=["list-item", "rounded"])
+			if not cards:
+				break
 
-			ret.append(up)
+			for c in cards:
+				up= dict()
+
+				up['series']= c.find(class_='list-title').get_text().strip().replace(' ', '-')
+				up['series_link']= c.find(class_='list-title')['href']
+				up['chapter_name']= ''
+				up['chapter_number']= float(c.find("span", class_="badge-md").get_text().split()[-1])
+				up['volume_number']= -1
+				up['link']= c.find(class_="media-content")['href']
+
+				ret.append(up)
 
 		return ret
 
