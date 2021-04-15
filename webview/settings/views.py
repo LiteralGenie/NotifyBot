@@ -3,7 +3,7 @@ from mako.template import Template
 from webview import IPC_CLIENT
 from . import LOOKUP, TEMPLATE_DIR
 from ruamel.yaml import YAML
-import utils
+import utils, json
 
 
 # GET for settings summary
@@ -31,6 +31,12 @@ class GeneralView(views.MethodView):
 class RoleView(views.MethodView):
 	async def post(self):
 		with open(utils.MENTIONS_FILE, "w") as file:
-			print(await request.json)
+			data= await request.json
+			print(data)
 			YAML().dump(await request.json, file)
+
+		msg= f"Role pings updated."
+		msg+= f"\n```json\n{json.dumps(data,indent=2)}```"
+		resp= await IPC_CLIENT.request("notify_role_update", msg=msg)
+		print(resp)
 		return ""
