@@ -28,8 +28,8 @@
 <%block name="table_body" args="SETTINGS">
     % for role,pinged in SETTINGS.items():
         <tr class="role-row">
-            <td><textarea class="series-input" placeholder="${role}" wrap="soft"></textarea></td>
-            <td><textarea class="role-input" placeholder="${web_utils.list_to_string(pinged)}" wrap="soft"></textarea></td>
+            <td><textarea class="series-input" placeholder="${role}" rows="4" wrap="soft"></textarea></td>
+            <td><textarea class="role-input" placeholder="${web_utils.list_to_string(pinged)}" rows="4" wrap="soft"></textarea></td>
             <td><textarea class="match-label" cols="50" rows="4" readonly></textarea></td>
             <td><button type="button" class="remove-button">remove row</button></td>
         </tr>
