@@ -6,6 +6,8 @@ import re, utils, time
 
 class GenkanScraper(UpdateScraper):
 	def __init__(self, key):
+		super().__init__(stop_on_old=True)
+
 		CONFIG= utils.load_bot_config()
 		self.home_link= CONFIG[key + '_home_link']
 		self.name= CONFIG[key + '_name']
@@ -15,6 +17,7 @@ class GenkanScraper(UpdateScraper):
 		# inits
 		ret= []
 		page_index= 0
+
 
 		while True:
 			page_index+= 1
@@ -38,9 +41,7 @@ class GenkanScraper(UpdateScraper):
 				up['volume_number']= -1
 				up['link']= c.find(class_="media-content")['href']
 
-				ret.append(up)
-
-		return ret
+				yield up
 
 	def parse_series_page(self, soup, update):
 		cover_link= soup.find(class_="media-content")['style']

@@ -6,6 +6,9 @@ import utils, asyncio
 
 # @todo: create superclass for AnnScraper and UpdateScraper
 class AnnScraper:
+	def __init__(self):
+		super().__init__()
+
 	@classmethod
 	def format_update(cls, update):
 		STRINGS= utils.load_yaml_with_default(utils.UPDATE_STRINGS)

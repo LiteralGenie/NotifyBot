@@ -6,6 +6,7 @@ import re, utils, time
 
 class FlameScraper(UpdateScraper):
 	def __init__(self):
+		super().__init__()
 		CONFIG= utils.load_bot_config()
 		self.series_base= CONFIG['flame_series_base']
 		self.update_link= CONFIG['flame_update_link']

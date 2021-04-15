@@ -5,6 +5,9 @@ import utils
 
 
 class LhtScraper(UpdateScraper):
+	def __init__(self):
+		super().__init__()
+
 	@classmethod
 	async def parse_update_page(cls, session=None):
 		# inits

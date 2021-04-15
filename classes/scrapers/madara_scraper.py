@@ -6,6 +6,7 @@ import re, utils, time
 
 class MadaraScraper(UpdateScraper):
 	def __init__(self, key):
+		super().__init__()
 		CONFIG= utils.load_bot_config()
 		self.home_link= CONFIG[key + '_home_link']
 		self.name= CONFIG[key + '_name']
@@ -34,7 +35,7 @@ class MadaraScraper(UpdateScraper):
 				up_copy['link']= chap.find("a")['href']
 				ret.append(up_copy)
 
-		return ret
+			yield up
 
 	def parse_series_page(self, soup, update):
 		cover_link= soup.find(class_="summary_image").find("img")['src']
