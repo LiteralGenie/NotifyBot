@@ -13,9 +13,6 @@ class MadaraScraper(UpdateScraper):
 		self.update_link= f"{self.home_link}"
 
 	async def parse_update_page(self, session=None):
-		# inits
-		ret= []
-
 		# get all chapters on update page
 		main_page= await get_html(self.update_link, session)
 		soup= BeautifulSoup(main_page, 'html.parser')
@@ -33,9 +30,7 @@ class MadaraScraper(UpdateScraper):
 				up_copy['chapter_name']= ''
 				up_copy['chapter_number']= float(chap.find("a").get_text().strip())
 				up_copy['link']= chap.find("a")['href']
-				ret.append(up_copy)
-
-			yield up
+				yield up_copy
 
 	def parse_series_page(self, soup, update):
 		cover_link= soup.find(class_="summary_image").find("img")['src']

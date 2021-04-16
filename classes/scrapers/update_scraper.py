@@ -53,7 +53,6 @@ class UpdateScraper(ABC):
 
 		# updates.sort(key=lambda x: (x['series'], x['chapter_number']))
 		async for x in updates:
-			print(x['series'])
 			# inits
 			series_data= await self.get_series_data(x, session)
 			x['series_data']= series_data

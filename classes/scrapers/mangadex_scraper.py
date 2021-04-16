@@ -12,7 +12,6 @@ class MdScraper(UpdateScraper, Logger):
 
 	async def parse_update_page(self, session):
 		# inits
-		ret= []
 		CONFIG= utils.load_bot_config()
 
 		# get all chapters on update pageget

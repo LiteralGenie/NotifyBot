@@ -13,9 +13,6 @@ class FlameScraper(UpdateScraper):
 		self.config= CONFIG
 
 	async def parse_update_page(self, session=None):
-		# inits
-		ret= []
-
 		# get all chapters on update page
 		main_page= await get_html(self.update_link, session)
 		soup= BeautifulSoup(main_page, 'html.parser')
@@ -37,9 +34,8 @@ class FlameScraper(UpdateScraper):
 				num= float(num.groups()[0]) if num else -1
 				chap['chapter_number']= num
 
-				ret.append(chap)
+				yield chap
 
-		return ret
 
 	def parse_series_page(self, soup, update):
 		cover_link= soup.find(class_="wp-post-image")['src']
