@@ -53,6 +53,7 @@ class UpdateScraper(ABC):
 
 		# updates.sort(key=lambda x: (x['series'], x['chapter_number']))
 		async for x in updates:
+			print(x['series'])
 			# inits
 			series_data= await self.get_series_data(x, session)
 			x['series_data']= series_data
@@ -92,7 +93,7 @@ class UpdateScraper(ABC):
 		ret= []
 
 		for x,y in mentions.items():
-			x= [y.strip().lower() for y in x.split(",")]
+			x= [z.strip().lower() for z in x.split(",")]
 			if 	utils.contains_all(to_search=data['display_name'], to_find=x) or \
 				utils.contains_all(to_search=data['group'], to_find=x) or \
 				utils.contains_all(to_search=data['site'], to_find=x) or \
