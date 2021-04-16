@@ -27,7 +27,7 @@ series_update_embed: |-
     title+= f"Chapter {chap_num}"
   %>
 
-  title: "<:dp_sparkles3:829994289073094676> ${title} <:dp_sparkles3:829994289073094676>"
+  title: "<a:dp_sparkles3:829993321555951616> ${title} <a:dp_sparkles3:829993321555951616>"
   url: "${LINK}"
   description: |-
     ${desc}

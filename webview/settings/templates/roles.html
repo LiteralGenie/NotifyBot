@@ -1,36 +1,50 @@
-<% page args="ROLES" />
+<%page args="SETTINGS, ROLES_AVAILABLE, SERIES_DATA" />
 
+## inheritance
+<%! FORM_ID='role-form' %>
+<%inherit file="base_form.html" />
 
-<% # formatting funcs
-    def list_to_string(lst):
-        if isinstance(lst, str):
-            return lst
-        return ", ".join(lst)
-%>
+## formatting helpers
+<%!
+    from webview import web_utils
+    import json
 
-<% # strings
     tooltips= dict(
         name= "Comma-separated, case-insensitive list of terms to match. eg &quot;run&quot; will match &quot;Knight Run&quot; and &quot;Trunk Beater&quot;",
-        role= "Comma-separated list of role ids / names."
+        role= "Comma-separated list of role ids."
     )
 %>
 
-<table id="role-settings">
-    <thead>
-        <th title="${tooltips['name']}" class="name">Series Name</th>
-        <th title="${tootltips['role']}" class="role">Role(s)</th>
-    </thead>
 
-    <tbody>
-        % for role,pinged in ROLES.items()
-            <tr>
-                <td>
-                    <input type="test" placeholder="${role}"/>
-                </td>
-                <td>
-                    <input type="test" placeholder="${list_to_string(pinged)}"/>
-                </td>
-            </tr>
-        % end for
-    </tbody>
-</table>
+<%block name="table_head">
+    <tr><th colspan="2">Role Settings</th></tr>
+
+    <tr>
+        <th title="${tooltips['name']}" class="name">Series Name</th>
+        <th title="${tooltips['role']}" class="role">Role(s)</th>
+        <th>Matches</th>
+</%block>
+
+<%block name="table_body" args="SETTINGS">
+    % for role,pinged in SETTINGS.items():
+        <tr class="role-row">
+            <td><textarea class="series-input" placeholder="${role}" rows="4" wrap="soft"></textarea></td>
+            <td><textarea class="role-input" placeholder="${web_utils.list_to_string(pinged)}" rows="4" wrap="soft"></textarea></td>
+            <td><textarea class="match-label" cols="50" rows="4" readonly></textarea></td>
+            <td><button type="button" class="remove-button">remove row</button></td>
+        </tr>
+    % endfor
+</%block>
+
+<%block name="table_post">
+    <button type="button" class="role-submit">_</button>
+    <button type="button" class="add-row">add row</button>
+</%block>
+
+<script>
+    var ROLE_FORM= {}
+    ROLE_FORM.ROLES_AVAILABLE= JSON.parse('${web_utils.dump_json(ROLES_AVAILABLE) }')
+    ROLE_FORM.SERIES_DATA= JSON.parse('${web_utils.dump_json(SERIES_DATA) }')
+</script>
+<script type="module" src="/js/misc_utils.js"></script>
+<script type="module" src="/js/role_settings.js"></script>

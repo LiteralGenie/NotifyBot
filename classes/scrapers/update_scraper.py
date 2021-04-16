@@ -6,13 +6,13 @@ import utils, time
 
 
 class UpdateScraper(ABC):
-	# def __init__(self):
-	# 	pass
+	def __init__(self, stop_on_old=False):
+		self.stop_on_old= stop_on_old
 
 	async def get_updates(self):
 		session= get_session()
 
-		updates= await self.parse_update_page(session)
+		updates= self.parse_update_page(session)
 		async for x in (self.filter_updates(updates, session)):
 			yield self.format_update(x)
 
@@ -51,9 +51,9 @@ class UpdateScraper(ABC):
 		SEEN= utils.load_json_with_default(utils.SEEN_CACHE, [])
 		BLACKLIST= utils.load_yaml_with_default(utils.BLACKLIST_FILE, default=[])
 
-		updates.sort(key=lambda x: (x['series'], x['chapter_number']))
-
-		for x in updates:
+		# updates.sort(key=lambda x: (x['series'], x['chapter_number']))
+		async for x in updates:
+			print(x['series'])
 			# inits
 			series_data= await self.get_series_data(x, session)
 			x['series_data']= series_data
@@ -61,6 +61,8 @@ class UpdateScraper(ABC):
 			# ignore already seen
 			hash= x['series'] + "_" + str(x['chapter_number'])
 			if hash in SEEN:
+				if self.stop_on_old:
+					return
 				continue
 			SEEN.append(hash)
 
@@ -91,10 +93,11 @@ class UpdateScraper(ABC):
 		ret= []
 
 		for x,y in mentions.items():
+			x= [z.strip().lower() for z in x.split(",")]
 			if 	utils.contains_all(to_search=data['display_name'], to_find=x) or \
 				utils.contains_all(to_search=data['group'], to_find=x) or \
 				utils.contains_all(to_search=data['site'], to_find=x) or \
-				x.lower() == "all":
+				"all" in x:
 
 				if not isinstance(y, list):
 					y= [y]
@@ -151,9 +154,7 @@ class UpdateScraper(ABC):
 		"""
 		session is a aiohttp.Session instance
 
-		returns list of dictionaries, where each dictionary looks like
-
-		dict(
+		yields dict(
 			series= ...,
 			series_link= ...,
 			chapter_name= ...,

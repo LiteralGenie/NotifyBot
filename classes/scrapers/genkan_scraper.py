@@ -6,6 +6,8 @@ import re, utils, time
 
 class GenkanScraper(UpdateScraper):
 	def __init__(self, key):
+		super().__init__(stop_on_old=True)
+
 		CONFIG= utils.load_bot_config()
 		self.home_link= CONFIG[key + '_home_link']
 		self.name= CONFIG[key + '_name']
@@ -14,25 +16,32 @@ class GenkanScraper(UpdateScraper):
 	async def parse_update_page(self, session=None):
 		# inits
 		ret= []
+		page_index= 0
 
-		# get all chapters on update page
-		main_page= await get_html(self.update_link, session)
-		soup= BeautifulSoup(main_page, 'html.parser')
 
-		cards= soup.find_all(class_=["list-item", "rounded"])
-		for c in cards:
-			up= dict()
+		while True:
+			page_index+= 1
+			time.sleep(2)
 
-			up['series']= c.find(class_='list-title').get_text().strip().replace(' ', '-')
-			up['series_link']= c.find(class_='list-title')['href']
-			up['chapter_name']= ''
-			up['chapter_number']= float(c.find("span", class_="badge-md").get_text().split()[-1])
-			up['volume_number']= -1
-			up['link']= c.find(class_="media-content")['href']
+			# get all chapters on update page
+			main_page= await get_html(self.update_link + f"?page={page_index}", session)
+			soup= BeautifulSoup(main_page, 'html.parser')
 
-			ret.append(up)
+			cards= soup.find_all(class_=["list-item", "rounded"])
+			if not cards:
+				break
 
-		return ret
+			for c in cards:
+				up= dict()
+
+				up['series']= c.find(class_='list-title').get_text().strip().replace(' ', '-')
+				up['series_link']= c.find(class_='list-title')['href']
+				up['chapter_name']= ''
+				up['chapter_number']= float(c.find("span", class_="badge-md").get_text().split()[-1])
+				up['volume_number']= -1
+				up['link']= c.find(class_="media-content")['href']
+
+				yield up
 
 	def parse_series_page(self, soup, update):
 		cover_link= soup.find(class_="media-content")['style']
