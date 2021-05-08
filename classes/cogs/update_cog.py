@@ -2,6 +2,7 @@ from discord.ext import tasks, commands
 from classes.scrapers import *
 from utils.cog_utils.update_utils import update_check, handle_loop_error
 from classes.log.logger import Logger
+import asyncio
 
 
 class UpdateCog(commands.Cog, Logger):
@@ -24,7 +25,11 @@ class UpdateCog(commands.Cog, Logger):
 		@handle_loop_error(self)
 		@update_check(name, self)
 		async def loop():
-			async for x in (ScraperClass.get_updates()):
+			first= True
+			async for x in ScraperClass.get_updates():
+				if first:
+					await asyncio.sleep(self.bot.config['discord_batch_delay'])
+					first= False
 				await out_channel.send(**x)
 
 		kwargs = {
