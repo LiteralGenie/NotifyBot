@@ -5,10 +5,12 @@ import utils
 
 
 class LhtScraper(UpdateScraper):
+	def __init__(self):
+		super().__init__()
+
 	@classmethod
 	async def parse_update_page(cls, session=None):
 		# inits
-		ret= []
 		CONFIG= utils.load_bot_config()
 
 		# get all chapters on update page
@@ -29,9 +31,7 @@ class LhtScraper(UpdateScraper):
 			tmp= float(tmp.split()[-1])
 			up['chapter_number']= tmp
 
-			ret.append(up)
-
-		return ret
+			yield up
 
 	@staticmethod
 	def parse_series_page(soup, update):

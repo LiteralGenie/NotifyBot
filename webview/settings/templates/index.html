@@ -1,0 +1,69 @@
+<%page args="GENERAL={}, ROLES={}, ROLES_AVAILABLE={}, SERIES_DATA={}" />
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="/css/settings.css"
+    </head>
+
+    <body>
+        <p>Hover headers for details.</p><br><br>
+        % if ROLES:
+            <div>
+            <%include file="/roles.html" args="SETTINGS=ROLES, ROLES_AVAILABLE=ROLES_AVAILABLE, SERIES_DATA=SERIES_DATA" />
+            </div>
+        % endif
+
+        <%doc>
+        % if GENERAL:
+            <br><hr><br>
+            <div>
+            <%include file="/general.html" args="SETTINGS=GENERAL" />
+            </div>
+        % endif
+        </%doc>
+
+        <br><hr><br>
+        <div>
+            <table id="series-list">
+                <thead>
+                    <tr>
+                        <th>Series List</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    % for s in SERIES_DATA.values():
+                        <tr>
+                            <td><label>${s['display_name']}</label></td>
+                        </tr>
+                    % endfor
+                </tbody>
+            </table>
+        </div>
+
+        <br><hr><br>
+        <div>
+            <table id="role-list">
+                <thead>
+                    <tr><th colspan="2">Roles</th></tr>
+                    <tr>
+                        <th>name</th>
+                        <th>id</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    % for id,name in ROLES_AVAILABLE.items():
+                        <tr>
+                            <td><label>${name}</label></td>
+                            <td><label>${id}</label></td>
+                        </tr>
+                    % endfor
+                </tbody>
+            </table>
+        </div>
+
+
+    </body>
+</html>
+

@@ -6,6 +6,9 @@ import utils, asyncio
 
 # @todo: create superclass for AnnScraper and UpdateScraper
 class AnnScraper:
+	def __init__(self):
+		super().__init__()
+
 	@classmethod
 	def format_update(cls, update):
 		STRINGS= utils.load_yaml_with_default(utils.UPDATE_STRINGS)
@@ -23,8 +26,9 @@ class AnnScraper:
 		ret= []
 
 		for x,y in mentions.items():
+			x= [y.strip() for y in x.split(",")]
 			if 	utils.contains_all(to_search=name, to_find=x) or \
-				x.lower() == "all":
+				x[0].lower() == "all":
 
 				if not isinstance(y, list):
 					y= [y]

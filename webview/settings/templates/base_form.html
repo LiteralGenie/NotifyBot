@@ -1,0 +1,29 @@
+<%page args="SETTINGS, **pageargs" />
+
+<%doc>
+    child template arguments (globals):
+       - FORM_ID
+</%doc>
+
+<%block name="form_pre"/>
+
+<form id=${next.attr.FORM_ID}>
+    <%block name="table_pre"/>
+
+    <table>
+        <thead>
+            <%block name="table_head"/>
+        </thead>
+
+        <tbody>
+            <%block name="table_body" args="SETTINGS"/>
+        </tbody>
+    </table>
+
+    <%block name="table_post"/>
+</form>
+
+<%block name="form_post"/>
+
+
+${next.body(SETTINGS=SETTINGS, **pageargs)}

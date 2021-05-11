@@ -1,3 +1,4 @@
+# https://leovoel.github.io/embed-visualizer/
 series_update_embed: |-
   <%
     is_int= CHAPTER_NUMBER - int(CHAPTER_NUMBER) == 0

@@ -7,11 +7,11 @@ import utils
 
 class MdScraper(UpdateScraper, Logger):
 	def __init__(self):
+		super().__init__()
 		Logger.__init__(self, __name__)
 
 	async def parse_update_page(self, session):
 		# inits
-		ret= []
 		CONFIG= utils.load_bot_config()
 
 		# get all chapters on update pageget
@@ -22,7 +22,7 @@ class MdScraper(UpdateScraper, Logger):
 		for x in items:
 			try:
 				up= self._parse(x)
-				ret.append(up)
+				yield up
 			except IndexError:
 				self.error(f"MD: Invalid naming scheme:\n{x}")
 			except ValueError:
@@ -31,8 +31,6 @@ class MdScraper(UpdateScraper, Logger):
 				self.error(f"{x}\n---\n{e}")
 			finally:
 				continue
-
-		return ret
 
 	@staticmethod
 	def _parse(elem):

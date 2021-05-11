@@ -6,6 +6,7 @@ import re, utils, time
 
 class MadaraScraper(UpdateScraper):
 	def __init__(self, key):
+		super().__init__()
 		CONFIG= utils.load_bot_config()
 		self.home_link= CONFIG[key + '_home_link']
 		self.name= CONFIG[key + '_name']
@@ -16,7 +17,7 @@ class MadaraScraper(UpdateScraper):
 		ret= []
 
 		def extract_num(text):
-			ch= chap.find("a").get_text()  # Vol. 9 Ch. 74 - New Year's Eve
+			ch= text                       # Vol. 9 Ch. 74 - New Year's Eve
 			ch= ch.split('-')[0].strip()   # Vol. 9 Ch. 74
 			ch= re.sub(".*?ch[^\d]*", "", ch, flags=re.IGNORECASE)
 			return float(ch)
@@ -36,11 +37,9 @@ class MadaraScraper(UpdateScraper):
 			for chap in c.find_all(class_="chapter-item"):
 				up_copy= up.copy()
 				up_copy['chapter_name']= ''
-				up_copy['chapter_number']= float()
+				up_copy['chapter_number']= float(extract_num(chap.find("a").get_text()))
 				up_copy['link']= chap.find("a")['href']
-				ret.append(up_copy)
-
-		return ret
+				yield up_copy
 
 	def parse_series_page(self, soup, update):
 		cover_link= soup.find(class_="summary_image").find("img")['src']
