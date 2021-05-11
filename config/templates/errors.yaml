@@ -1,6 +1,6 @@
 # Miscellaneous ----
 uncaught_template: |-
-  Unexpected error. <@113843036965830657>
+  Unexpected error. <113843036965830657>
   ```py
   @ MESSAGE:
   ${MESSAGE}
