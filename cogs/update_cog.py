@@ -18,27 +18,20 @@ class UpdateCog(commands.Cog, Logger):
 
 		# todo: condense
 		tmp= lambda x: self.bot.get_channel(self.bot.config[x + '_channel'])
-		self.ann_channel= tmp('ann')
-		self.levi_channel= tmp('levi')
-		self.sushi_channel= tmp('sushi')
-		self.md_channel= tmp('md')
-		self.lht_channel= tmp('lht')
-		self.sks_channel= tmp('sks')
-		self.reaper_channel= tmp('reaper')
-		self.noname_channel= tmp('noname')
-		self.flame_channel= tmp('flame')
 
-		self.get_loop('sks', MadaraScraper('sks'), self.sks_channel).start()
-		self.get_loop('levi', MadaraScraper('levi'), self.levi_channel).start()
+		self.get_loop('sks', MadaraScraper('sks'), tmp('sks')).start()
+		self.get_loop('levi', MadaraScraper('levi'), tmp('levi')).start()
+		self.get_loop('arang', MadaraScraper('arang'), tmp('arang')).start()
+		self.get_loop('tritinia', MadaraScraper('tritinia'), tmp('tritinia')).start()
 
-		self.get_loop('reaper', GenkanScraper('reaper'), self.reaper_channel).start()
-		self.get_loop('noname', GenkanScraper('noname'), self.noname_channel).start()
-
-		self.get_loop('sushi', SushiScraper(), self.sushi_channel).start()
-		self.get_loop('md', MdScraper(), self.md_channel).start()
-		self.get_loop('ann', AnnScraper(), self.ann_channel).start()
-		self.get_loop('lht', LhtScraper(), self.lht_channel).start()
-		self.get_loop('flame', FlameScraper(), self.flame_channel).start()
+		# self.get_loop('reaper', GenkanScraper('reaper'), tmp('reaper')).start()
+		# self.get_loop('noname', GenkanScraper('noname'), tmp('noname')).start()
+		#
+		# self.get_loop('sushi', SushiScraper(), tmp('sushi')).start()
+		# self.get_loop('md', MdScraper(), tmp('md')).start()
+		# self.get_loop('ann', AnnScraper(), tmp('ann')).start()
+		# self.get_loop('lht', LhtScraper(), tmp('lht')).start()
+		# self.get_loop('flame', FlameScraper(), tmp('flame')).start()
 
 
 	def get_loop(self, name, ScraperClass, out_channel):

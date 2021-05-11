@@ -15,6 +15,12 @@ class MadaraScraper(UpdateScraper):
 		# inits
 		ret= []
 
+		def extract_num(text):
+			ch= chap.find("a").get_text()  # Vol. 9 Ch. 74 - New Year's Eve
+			ch= ch.split('-')[0].strip()   # Vol. 9 Ch. 74
+			ch= re.sub(".*?ch[^\d]*", "", ch, flags=re.IGNORECASE)
+			return float(ch)
+
 		# get all chapters on update page
 		main_page= await get_html(self.update_link, session)
 		soup= BeautifulSoup(main_page, 'html.parser')
@@ -30,7 +36,7 @@ class MadaraScraper(UpdateScraper):
 			for chap in c.find_all(class_="chapter-item"):
 				up_copy= up.copy()
 				up_copy['chapter_name']= ''
-				up_copy['chapter_number']= float(chap.find("a").get_text().strip())
+				up_copy['chapter_number']= float()
 				up_copy['link']= chap.find("a")['href']
 				ret.append(up_copy)
 
