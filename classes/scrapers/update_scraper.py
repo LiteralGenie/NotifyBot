@@ -64,7 +64,9 @@ class UpdateScraper(ABC):
 				if self.stop_on_old:
 					return
 				continue
+
 			SEEN.append(hash)
+			utils.dump_json(SEEN, utils.SEEN_CACHE)
 
 			# ignore blacklisted
 			flag= False
@@ -78,13 +80,11 @@ class UpdateScraper(ABC):
 			if flag:
 				continue
 
-
 			# return
 			yield x
 
-			# clean up
-			SEEN= SEEN[-12345:]
-			utils.dump_json(SEEN, utils.SEEN_CACHE)
+		SEEN= SEEN[-5000:]
+		utils.dump_json(SEEN, utils.SEEN_CACHE)
 
 
 	def get_mentions(self, update):

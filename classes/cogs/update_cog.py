@@ -28,7 +28,8 @@ class UpdateCog(commands.Cog, Logger):
 			first= True
 			async for x in ScraperClass.get_updates():
 				if first:
-					await asyncio.sleep(self.bot.config['discord_batch_delay'])
+					print(f'Batch delay -- {self.bot.config["discord_batch_delay"]}')
+					await asyncio.sleep()
 					first= False
 				await out_channel.send(**x)
 
