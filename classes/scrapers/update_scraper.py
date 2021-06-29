@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from utils.scraper_utils import get_session, get_html
 from bs4 import BeautifulSoup
 from discord import Embed
-import utils, time
+import utils, time, sys
 
 
 class UpdateScraper(ABC):
@@ -12,9 +12,12 @@ class UpdateScraper(ABC):
 	async def get_updates(self):
 		session= get_session()
 
-		updates= self.parse_update_page(session)
-		async for x in (self.filter_updates(updates, session)):
-			yield self.format_update(x)
+		try:
+			updates= self.parse_update_page(session)
+			async for x in (self.filter_updates(updates, session)):
+				yield self.format_update(x)
+		except Exception as e:
+			print(e, file=sys.stderr)
 
 		await session.close()
 

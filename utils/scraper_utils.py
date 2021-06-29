@@ -16,8 +16,12 @@ async def get_html(logger, link, session=None):
 	if session is None:
 		session= get_session()
 
-
-	resp= await session.get(link)
+	try:
+		resp= await session.get(link)
+	except:
+		# todo: logging
+		session= get_session()
+		resp= await session.get(link)
 	logger.info(f'Visiting {link}')
 
 	if not resp.status == 200:

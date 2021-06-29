@@ -16,7 +16,7 @@ class UpdateCog(commands.Cog, Logger):
 		self.error_channel= self.bot.get_channel(self.bot.config['error_channel'])
 
 
-		# todo: condense
+		# todo: move to config file
 		tmp= lambda x: self.bot.get_channel(self.bot.config[x + '_channel'])
 
 		self.get_loop('sks', MadaraScraper('sks'), tmp('sks')).start()
@@ -28,10 +28,11 @@ class UpdateCog(commands.Cog, Logger):
 		self.get_loop('noname', GenkanScraper('noname'), tmp('noname')).start()
 
 		self.get_loop('sushi', SushiScraper(), tmp('sushi')).start()
-		self.get_loop('md', MdScraper(), tmp('md')).start()
 		self.get_loop('ann', AnnScraper(), tmp('ann')).start()
 		self.get_loop('lht', LhtScraper(), tmp('lht')).start()
 		self.get_loop('flame', FlameScraper(), tmp('flame')).start()
+
+		# self.get_loop('md', MdScraper(), tmp('md')).start()
 
 
 	def get_loop(self, name, ScraperClass, out_channel):

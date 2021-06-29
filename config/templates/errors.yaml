@@ -1,6 +1,6 @@
 # Miscellaneous ----
 uncaught_template: |-
-  Unexpected error. <113843036965830657>
+  Unexpected error.
   ```py
   @ MESSAGE:
   ${MESSAGE}
@@ -12,13 +12,12 @@ uncaught_template: |-
 tmp_not_found_template: |-
   Typo in template name `{{NAME}}`
   Valid template names: `[${", ".join(AVAILABLE)$}]`
-  <@113843036965830657>
 
 bad_response_template: |-
   Error. Accessing "${LINK}" failed with reason "${RESPONSE.reason} (${RESPONSE.status})"
 
 loop_template: |-
-  Unexpected error. <@113843036965830657>
+  Unexpected error.
   ```py
   @ EXCEPTION:
   ${EXCEPTION}
