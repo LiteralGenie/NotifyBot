@@ -2,7 +2,10 @@ from abc import ABC, abstractmethod
 from utils.scraper_utils import get_session, get_html
 from bs4 import BeautifulSoup
 from discord import Embed
+from classes.log.logger import Logger
 import utils, time, sys
+
+LOG= Logger(__file__)
 
 
 class UpdateScraper(ABC):
@@ -17,6 +20,7 @@ class UpdateScraper(ABC):
 			async for x in (self.filter_updates(updates, session)):
 				yield self.format_update(x)
 		except Exception as e:
+			LOG.error(str(e))
 			print(e, file=sys.stderr)
 
 		await session.close()
@@ -80,13 +84,12 @@ class UpdateScraper(ABC):
 			if flag:
 				continue
 
-
-			# return
-			yield x
-
 			# clean up
 			SEEN= SEEN[-12345:]
 			utils.dump_json(SEEN, utils.SEEN_CACHE)
+
+			# return
+			yield x
 
 
 	def get_mentions(self, update):
