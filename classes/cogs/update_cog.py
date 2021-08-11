@@ -1,51 +1,91 @@
-from discord.ext import tasks, commands
-from classes.scrapers import *
-from utils.cog_utils.update_utils import update_check, handle_loop_error
-from classes.log.logger import Logger
+import asyncio
+
+from discord import Embed
+from discord.ext import commands
+
+import utils
+from classes import AmyBotU, Update
+from classes.scrapers import MadaraScraper
+from classes.scrapers.arang import ArangScraper
+from classes.scrapers.genkan import GenkanScraper
+from classes.scrapers.lht import LhtScraper
+from classes.scrapers.reaper import ReaperScraper
+from classes.scrapers.update import UpdateScraper
+from classes.state.scraper_config import ScraperConfig
 
 
-class UpdateCog(commands.Cog, Logger):
-	def __init__(self, bot):
+class UpdateCog(commands.Cog):
+	def __init__(self, bot: AmyBotU):
 		commands.Cog.__init__(self)
-		Logger.__init__(self, __name__)
+		self.bot = bot
 
-		self.bot= bot
-		self.check_times= {}
-		self.iterations= {}
+		self.start()
 
-		self.error_channel= self.bot.get_channel(self.bot.config['error_channel'])
+	# start scrapers
+	def start(self):
+		# inits
+		defaults = self.bot.config.defaults
+		session = self.bot.context.session
+		scrapers = []
 
+		# madara
+		for scraper_dict in self.bot.config['madara']:
+			cfg = ScraperConfig(defaults, scraper_dict)
+			scrapers.append(MadaraScraper(config=cfg, session=session))
 
-		# todo: move to config file
-		tmp= lambda x: self.bot.get_channel(self.bot.config[x + '_channel'])
+		# genkan
+		for scraper_dict in self.bot.config['genkan']:
+			cfg = ScraperConfig(defaults, scraper_dict)
+			scrapers.append(GenkanScraper(config=cfg, session=session))
 
-		self.get_loop('sks', MadaraScraper('sks'), tmp('sks')).start()
-		self.get_loop('levi', MadaraScraper('levi'), tmp('levi')).start()
-		self.get_loop('arang', MadaraScraper('arang'), tmp('arang')).start()
-		self.get_loop('tritinia', MadaraScraper('tritinia'), tmp('tritinia')).start()
+		# misc
+		cfg = ScraperConfig(defaults, self.bot.config['misc']['reaper'])
+		scrapers.append(ReaperScraper(config=cfg, session=session))
 
-		self.get_loop('reaper', GenkanScraper('reaper'), tmp('reaper')).start()
-		self.get_loop('noname', GenkanScraper('noname'), tmp('noname')).start()
+		cfg = ScraperConfig(defaults, self.bot.config['misc']['lht'])
+		scrapers.append(LhtScraper(config=cfg, session=session))
 
-		self.get_loop('sushi', SushiScraper(), tmp('sushi')).start()
-		self.get_loop('ann', AnnScraper(), tmp('ann')).start()
-		self.get_loop('lht', LhtScraper(), tmp('lht')).start()
-		self.get_loop('flame', FlameScraper(), tmp('flame')).start()
+		cfg = ScraperConfig(defaults, self.bot.config['misc']['arang'])
+		scrapers.append(ArangScraper(config=cfg, session=session))
 
-		# self.get_loop('md', MdScraper(), tmp('md')).start()
+		# start
+		for s in scrapers:
+			asyncio.create_task(self._start_scraper(s))
 
+	async def _start_scraper(self, scraper: UpdateScraper):
+		out_channel = self.bot.get_channel(scraper.config.out)
 
-	def get_loop(self, name, ScraperClass, out_channel):
-		@handle_loop_error(self)
-		@update_check(name, self)
-		async def loop():
-			async for x in (ScraperClass.get_updates()):
-				await out_channel.send(**x)
+		async for up in scraper.loop():
+			# format
+			mentions = self.get_mentions(up, scraper)
+			msg = self.format_update(up, mentions)
 
-		kwargs = {
-            'seconds': 5, 'minutes': 0, 'hours': 0,
-			'count': None,
-			'reconnect': True,
-			'loop': None
-        }
-		return tasks.Loop(loop, **kwargs)
+			# send
+			await out_channel.send(**msg)
+
+			# sleep
+			await asyncio.sleep(self.bot.config.msg_delay)
+
+	def format_update(self, update: Update, mentions: list[str]):
+		"""
+		returns dictionary of kwargs to use for discord.abc.Messageable.send()
+		(namely an entry for "content" (string) or "embed" (discord.Embed))
+		"""
+		STRINGS= utils.load_yaml_with_default(utils.UPDATE_STRINGS)
+
+		embed= utils.render(STRINGS['series_update_embed'], update=update)
+		embed= utils.load_yaml_from_string(embed, safe=True)
+
+		content = " ".join(mentions)
+		if "content" in embed:
+			content+= "\n" + embed.get('content')
+			del embed['content']
+
+		return dict(content=content, embed=Embed.from_dict(embed))
+
+	def get_mentions(self, update: Update, scraper: UpdateScraper) -> list[str]:
+		pings = self.bot.config.global_pings.copy()
+		pings += scraper.config.pings.copy()
+
+		ret = [f"<@&{id}>" for id in pings]
+		return ret

@@ -9,6 +9,8 @@ CACHE_DIR= ROOT_DIR + "cache/"
 WEBVIEW_DIR= ROOT_DIR + "webview/"
 
 TEMPLATE_DIR= CONFIG_DIR + "templates/"
+SEEN_DIR= CACHE_DIR + "seen/"
+SERIES_DIR = CACHE_DIR + "series/"
 
 ###
 
@@ -18,9 +20,6 @@ LOGGING_CONFIG= CONFIG_DIR + "logging_config.yaml"
 ERROR_STRINGS= TEMPLATE_DIR + "errors.yaml"
 UPDATE_STRINGS= TEMPLATE_DIR + "updates.yaml"
 LOG_STRINGS= TEMPLATE_DIR + "logs.yaml"
-
-SERIES_CACHE= CACHE_DIR + "series.json"
-SEEN_CACHE= CACHE_DIR + "seen.json"
 
 MENTIONS_FILE= CONFIG_DIR + "mentions.yaml"
 BLACKLIST_FILE= CONFIG_DIR + "series_blacklist.yaml"
