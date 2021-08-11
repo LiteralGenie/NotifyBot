@@ -67,3 +67,6 @@ class UpdateScraper:
 
             # return
             yield up
+
+    def fetch(self, link, timeout=15, **kwargs):
+        return self.session.get(link, timeout=timeout, **kwargs)

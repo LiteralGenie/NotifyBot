@@ -21,7 +21,7 @@ class MadaraScraper(UpdateScraper):
         ret = []
 
         # visit
-        resp = self.session.get(self.update_link)
+        resp = self.fetch(self.update_link)
         soup = BeautifulSoup(resp.text, 'html.parser')
 
         # scrape
@@ -57,7 +57,7 @@ class MadaraScraper(UpdateScraper):
     # scrape series data
     def scrape_data(self, up: PartialUpdate) -> SeriesData:
         # visit
-        resp = self.session.get(up.series_link)
+        resp = self.fetch(up.series_link)
         soup = BeautifulSoup(resp.text, 'html.parser')
 
         # extract info
