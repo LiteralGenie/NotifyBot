@@ -5,3 +5,4 @@ ruamel.yaml
 lxml
 quart
 discord-ext-ipc
+requests

@@ -25,9 +25,6 @@ def contains_all(to_search, to_find, case_insensitive=True):
 	return all(is_in(x) for x in find)
 
 
-def load_bot_config():
-	return load_yaml_with_default(BOT_CONFIG, default=False)
-
 def make_dirs(path):
 	if not os.path.exists(os.path.dirname(path)):
 		os.makedirs(os.path.dirname(path))
@@ -85,8 +82,9 @@ def dump_json(data, path):
 
 
 # @todo: rewrite this
-def render(template, dct, **kwargs):
-	dct= { x.upper():y for x,y in dct.items() }
+def render(template, dct=None, **kwargs):
+	dct = dct or {}
+	dct = { x.upper():y for x,y in dct.items() }
 	dct.update({ x.upper():y for x,y in kwargs.items() })
 
 	try:

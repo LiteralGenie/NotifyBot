@@ -1,48 +1,77 @@
-##### Stuff you wanna edit --- use "# blah" at the end of the line to add a comment
-discord_key: "blah"
+#### ENUMS (ignore)
+blacklist: &blacklist 0
+whitelist: &whitelist 1
+
+
+##### BOT STUFF
+discord_key: "key123"
+
 prefix: "!"
-error_channel: 563523595322785833 # channel_name
+error_channel: 796221166494416958
 
-sushi_channel: 12345
-levi_channel: 86420
-md_channel: 696969
-ann_channel: 3692581470
-lht_channel: 6543210
-sks_channel: 6543210
+msg_delay: 5 # how long (seconds) to wait between update messages
 
 
-sushi_check_frequency_seconds: 3600
-levi_check_frequency_seconds: 3600
-sks_check_frequency_seconds: 3600
-md_check_frequency_seconds: 3600
-ann_check_frequency_seconds: 3600
-lht_check_frequency_seconds: 3600
+##### SCRAPERS
+
+defaults:
+  freq: 65          # seconds
+  s_refresh: 14     # days before refreshing series data (eg desc, cover img, etc) --- UNUSED
+  filter_type: *blacklist
+  filter_list: []
+  pings: []
+
+# role ids to ping for all series
+global_pings: [123456]
+
+# UNUSED
+title_pings: [
+  # role_id: keyword_string
+]
+
+### madara scrapers
+madara:
+  - name: SKScans
+    home: https://skscans.com/
+    out: 796221166494416958
+
+  - name: Leviatan
+    home: https://leviatanscans.com/
+    out: 796221166494416958
+
+  - name: Tritinia Scans
+    home: https://tritinia.com/
+    out: 796221166494416958
+
+### genkan scrapers
+genkan:
+  - name: Reaper Scans
+    home: https://reaperscans.com/
+    out: 796221166494416958
+
+  - name: Nonames Scans
+    home: https://the-nonames.com/
+    out: 796221166494416958
+
+### other scrapers
+misc:
+  sushi:
+    name: Mangasushi
+    home: https://mangasushi.net/
+    out: 796221166494416958
+
+  lht:
+    name: LH Translations
+    home: https://lhtranslation.net/
+    out: 796221166494416958
+
+  arang:
+    name: Arang Scans
+    home: https://arangscans.com/
+    out: 796221166494416958
 
 
-flame_channel: 1
-flame_check_frequency_seconds: 3600
-flame_update_link: http://flamescans.org/
-flame_series_base: https://flamescans.org/manga/
-
-
-
-##### Stuff you wanna leave alone
-sushi_update_link: "https://mangasushi.net/manga/?m_orderby=latest"
-sushi_series_base: "https://mangasushi.net/manga/"
-
-levi_home_link: "https://leviatanscans.com/"
-levi_name: "Leviatan Scans"
-
-sks_home_link: "https://skscans.com/"
-sks_name: "SK Scans"
-
-mangadex_update_link: "https://mangadex.org/rss/follows/123abcdef"
-ann_update_link: "https://www.animenewsnetwork.com/news/rss.xml?ann-edition=us"
-lht_update_link: "https://lhtranslation.net/index.html"
-
-
-# how long (seconds) to wait between update messages
-discord_message_delay: 1
-
-# how often (days) to check for new series cover / description / etc
-series_refresh_rate: 28
+##### OLD & UNUSED
+ipc_key: "cafe_pray"
+ipc_port: 5959
+interface_port: 8025

@@ -1,14 +1,12 @@
+# todo -- logging
+
 from discord.ext import commands
-from ..log.logger import Logger
 from .templated_error import TemplatedError
 
 import utils, traceback, sys
 
 # handle errors resulting from user commands --- does not handle errors from automatic things like tasks.loop
-class ErrorHandler(Logger):
-	def __init__(self):
-		super().__init__(__name__)
-
+class ErrorHandler:
 	async def on_command_error(self, ctx, e):
 		if isinstance(e, TemplatedError):
 			return await ctx.send(e.render(ctx))
@@ -30,5 +28,4 @@ class ErrorHandler(Logger):
 		# print
 		await ctx.send(uncaught)
 		traceback.print_tb(err.__traceback__)
-		self.error(str(e))
 		sys.stderr.write(str(e))
