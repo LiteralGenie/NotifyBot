@@ -12,8 +12,10 @@ class BotConfig:
         self.key: str = self['discord_key']
         self.prefix: str = self['prefix']
         self.error_channel: int = self['error_channel']
-        self.msg_delay: int = self['msg_delay']
         self.global_pings: list[int] = self['global_pings']
+
+        self.msg_delay: int = self['msg_delay']
+        self.error_delay: int = self['error_delay']
 
         self.defaults: IDefaults = self['defaults']
 

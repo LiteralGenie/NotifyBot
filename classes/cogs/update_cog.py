@@ -1,4 +1,8 @@
 import asyncio
+import logging
+import random
+import sys
+import traceback
 
 from discord import Embed
 from discord.ext import commands
@@ -13,16 +17,18 @@ from classes.scrapers.reaper import ReaperScraper
 from classes.scrapers.update import UpdateScraper
 from classes.state.scraper_config import ScraperConfig
 
+ERROR_LOG = logging.getLogger('error')
+
 
 class UpdateCog(commands.Cog):
 	def __init__(self, bot: AmyBotU):
 		commands.Cog.__init__(self)
 		self.bot = bot
 
-		self.start()
+		asyncio.create_task(self.start())
 
 	# start scrapers
-	def start(self):
+	async def start(self):
 		# inits
 		defaults = self.bot.config.defaults
 		session = self.bot.context.session
@@ -49,8 +55,20 @@ class UpdateCog(commands.Cog):
 		scrapers.append(ArangScraper(config=cfg, session=session))
 
 		# start
-		for s in scrapers:
-			asyncio.create_task(self._start_scraper(s))
+		await asyncio.gather(*[self.start_scraper(s) for s in scrapers])
+
+	async def start_scraper(self, scraper: UpdateScraper):
+		while True:
+			try:
+				await self._start_scraper(scraper)
+			except:
+				msg = f'Unexpected error in [{scraper.config.name}]'
+
+				print(msg, file=sys.stderr)
+				traceback.print_exc()
+
+				ERROR_LOG.error(msg, exc_info=True)
+				await asyncio.sleep(self.bot.config.error_delay)
 
 	async def _start_scraper(self, scraper: UpdateScraper):
 		out_channel = self.bot.get_channel(scraper.config.out)
