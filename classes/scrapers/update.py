@@ -1,4 +1,4 @@
-import asyncio
+import asyncio, logging
 from typing import Generator, Iterable
 from requests import Session
 
@@ -6,6 +6,8 @@ from classes import Update, PartialUpdate, SeriesData
 from classes.state.scraper_config import ScraperConfig
 from classes.state.seen_cache import SeenCache
 from classes.state.series_cache import SeriesCache
+
+LOG = logging.getLogger('debug')
 
 
 class UpdateScraper:
@@ -35,14 +37,19 @@ class UpdateScraper:
 
     async def get_updates(self) -> Generator[Update, None, None]:
         # parse update page
+        LOG.info(f'[{self.config.name}] Scanning updates')
         partial_updates = self.scrape_updates()
-        updates = (self.load_data(up) for up in partial_updates)
+
+        LOG.info(f'[{self.config.name}] Loading data {len(partial_updates)}')
+        updates = [self.load_data(up) for up in partial_updates]
 
         # filter
+        LOG.info(f'[{self.config.name}] Filtering updates {len(updates)}')
         ftrd = self.filter_updates(updates)
 
         # return
         for up in ftrd:
+            LOG.info(f'[{self.config.name}] Yielding update {up.link}')
             yield up
             self.seen.add(up.hash)
 

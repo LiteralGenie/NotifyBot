@@ -18,6 +18,7 @@ from classes.scrapers.update import UpdateScraper
 from classes.state.scraper_config import ScraperConfig
 
 ERROR_LOG = logging.getLogger('error')
+LOG = logging.getLogger('debug')
 
 
 class UpdateCog(commands.Cog):
@@ -75,10 +76,14 @@ class UpdateCog(commands.Cog):
 
 		async for up in scraper.loop():
 			# format
+			LOG.info(f'[{scraper.config.name}] Getting mentions {up.link}')
 			mentions = self.get_mentions(up, scraper)
+
+			LOG.info(f'[{scraper.config.name}] Formatting update {up.link}')
 			msg = self.format_update(up, mentions)
 
 			# send
+			LOG.info(f'[{scraper.config.name}] Sending update {up.link}')
 			await out_channel.send(**msg)
 
 			# sleep
