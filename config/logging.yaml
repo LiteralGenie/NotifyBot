@@ -5,11 +5,11 @@ formatters:
     format: '[%(levelname)-10s | %(filename)-15s | %(asctime)s] %(message)s'
 
 handlers:
-  battle:
+  debug:
     class: logging.FileHandler
     level: DEBUG
     formatter: simple
-    filename: "./logs/battle.log"
+    filename: "./logs/debug.log"
   error:
     class: logging.FileHandler
     level: DEBUG
@@ -17,9 +17,9 @@ handlers:
     filename: "./logs/errors.log"
 
 loggers:
-  battle:
+  debug:
     level: DEBUG
-    handlers: [battle]
+    handlers: [debug]
     propagate: false
   error:
     level: DEBUG
