@@ -14,7 +14,7 @@ class LhtScraper(UpdateScraper):
 
     @property
     def update_link(self):
-        return self.config.home + f"manga-list.html?listType=pagination&page=1&artist=&author=&group=&m_status=&name=&genre=&ungenre=&sort=last_update&sort_type=DESC"
+        return self.config.home # + f"manga-list.html?listType=pagination&page=1&artist=&author=&group=&m_status=&name=&genre=&ungenre=&sort=last_update&sort_type=DESC"
 
     def scrape_updates(self) -> list[PartialUpdate]:
         ret = []
@@ -24,25 +24,32 @@ class LhtScraper(UpdateScraper):
         soup = BeautifulSoup(resp.text, 'html.parser')
 
         # scrape
-        cards = soup.select('.media')
+        cards = soup.select('.item-summary')
         for c in cards:
-            # chap num
-            chap = c.select('a')[-1]
-            chap = float(chap.text)
+            s_link = c.select_one('.h5 > a')['href']
+            if 'https:' not in s_link:
+                s_link = self.config.home + s_link
 
-            # series link
-            s_link = self.config.home + c.select_one('.media-heading > a')['href']
+            for ch in c.select('.chapter-item'):
+                anchor = ch.select_one('.btn-link')
 
-            # create PartialUpdate
-            link = self.config.home + c.select('a')[-1]['href']
+                # chap num
+                chap = anchor.text
+                chap = re.match(r"\s*Ch\w*\.?\s*(\d+)\s*", chap)
+                chap = float(chap.group(1))
 
-            ret.append(PartialUpdate(
-                link=link,
-                chap=chap,
-                group_name=self.group_name,
-                group_link=self.group_link,
-                series_link=s_link,
-            ))
+                # create PartialUpdate
+                link = anchor['href']
+                if 'https:' not in link:
+                    link = self.config.home + link
+
+                ret.append(PartialUpdate(
+                    link=link,
+                    chap=chap,
+                    group_name=self.group_name,
+                    group_link=self.group_link,
+                    series_link=s_link,
+                ))
 
         return ret
 
@@ -53,11 +60,9 @@ class LhtScraper(UpdateScraper):
         soup = BeautifulSoup(resp.text, 'html.parser')
 
         # extract info
-        desc = soup.select('.well > .row:nth-child(3) > p')
-        desc = "\n".join([x.text for x in desc])
-        title = soup.select_one('.manga-info > h1').text
-
-        cover = soup.select_one('.thumbnail')['src']
+        desc = soup.select_one('.description-summary').text.strip()
+        title = soup.select_one('.post-title > h1').text.strip()
+        cover = soup.select_one('.summary_image img')['data-src']
 
         # return
         return SeriesData(
