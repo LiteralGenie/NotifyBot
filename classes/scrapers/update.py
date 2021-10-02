@@ -20,7 +20,6 @@ class UpdateScraper:
         raise NotImplementedError
 
 
-
     def __init__(self, config: ScraperConfig, session: Session):
         self.config = config
         self.seen = SeenCache(config.name)

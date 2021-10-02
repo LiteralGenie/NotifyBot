@@ -35,7 +35,7 @@ class AlphaScraper(UpdateScraper):
             if chap:
                 chap = float(chap.group(1))
             else:
-                chap = int(time.time())
+                continue
 
             # create PartialUpdate
             link = c['href']
