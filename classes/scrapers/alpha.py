@@ -7,7 +7,7 @@ from classes import PartialUpdate, SeriesData
 from classes.scrapers.update import UpdateScraper
 
 
-class ArangScraper(UpdateScraper):
+class AlphaScraper(UpdateScraper):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.group_link = self.config.home
