@@ -63,7 +63,7 @@ class AlphaScraper(UpdateScraper):
         desc = soup.select_one('.info-desc .entry-content').text
         title = soup.select_one('.entry-title').text
 
-        cover = self.config.home + soup.select_one('.thumb > .wp-post-image')['src']
+        cover = soup.select_one('.thumb > .wp-post-image')['src']
 
         # return
         return SeriesData(
