@@ -36,24 +36,24 @@ class UpdateCog(commands.Cog):
 		scrapers = []
 
 		# madara
-		for scraper_dict in self.bot.config['madara']:
-			cfg = ScraperConfig(defaults, scraper_dict)
-			scrapers.append(MadaraScraper(config=cfg, session=session))
+		# for scraper_dict in self.bot.config['madara']:
+		# 	cfg = ScraperConfig(defaults, scraper_dict)
+		# 	scrapers.append(MadaraScraper(config=cfg, session=session))
 
 		# genkan
-		for scraper_dict in self.bot.config['genkan']:
-			cfg = ScraperConfig(defaults, scraper_dict)
-			scrapers.append(GenkanScraper(config=cfg, session=session))
+		# for scraper_dict in self.bot.config['genkan']:
+		# 	cfg = ScraperConfig(defaults, scraper_dict)
+		# 	scrapers.append(GenkanScraper(config=cfg, session=session))
 
 		# misc
-		cfg = ScraperConfig(defaults, self.bot.config['misc']['reaper'])
-		scrapers.append(ReaperScraper(config=cfg, session=session))
+		# cfg = ScraperConfig(defaults, self.bot.config['misc']['reaper'])
+		# scrapers.append(ReaperScraper(config=cfg, session=session))
 
 		cfg = ScraperConfig(defaults, self.bot.config['misc']['lht'])
 		scrapers.append(LhtScraper(config=cfg, session=session))
 
-		cfg = ScraperConfig(defaults, self.bot.config['misc']['arang'])
-		scrapers.append(ArangScraper(config=cfg, session=session))
+		# cfg = ScraperConfig(defaults, self.bot.config['misc']['arang'])
+		# scrapers.append(ArangScraper(config=cfg, session=session))
 
 		# start
 		await asyncio.gather(*[self.start_scraper(s) for s in scrapers])
