@@ -35,7 +35,7 @@ class LhtScraper(UpdateScraper):
 
                 # chap num
                 chap = anchor.text
-                chap = re.match(r"\s*Ch\w*\.?\s*(\d+)\s*", chap)
+                chap = re.match(r"\s*Ch\w*\.?\s*(\d+)(?:\.\d+)?\s*", chap)
                 chap = float(chap.group(1))
 
                 # create PartialUpdate
