@@ -61,7 +61,9 @@ class MadaraScraper(UpdateScraper):
         soup = BeautifulSoup(resp.text, 'html.parser')
 
         # extract info
-        desc = soup.select_one('.summary__content').text
+        try: desc = soup.select_one('.summary__content').text
+        except: desc = ""
+
         title = soup.select_one('.post-title > h1').text
 
         script = soup.select_one("""script[type="application/ld+json"]""")
