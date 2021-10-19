@@ -23,8 +23,6 @@ class ScraperConfig:
         self._cfg = cfg
 
     def __getattr__(self, item):
-        print(item, self._cfg.get(item), self._defaults.get(item))
-
         # join if lists
         if isinstance(self._defaults.get(item), list): # type: ignore
             return self._cfg.get(item, []) + self._defaults[item] # type: ignore
